@@ -14,6 +14,7 @@ LABEL org.opencontainers.image.version="0.4.6"
 ENV PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
     PIP_NO_CACHE_DIR=1 \
+    PLAYWRIGHT_BROWSERS_PATH=/ms-playwright \
     PATCHRIGHT_BROWSERS_PATH=/ms-playwright
 
 # Install minimal OS dependencies for headless Chromium
@@ -37,6 +38,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libasound2 \
     && rm -rf /var/lib/apt/lists/*
 
+# Create unprivileged user and ensure browser directories exist
+RUN useradd -m -u 1000 patchtroy \
+    && mkdir -p /ms-playwright /app /home/patchtroy/.cache \
+    && ln -s /ms-playwright /home/patchtroy/.cache/ms-playwright \
+    && chown -R patchtroy:patchtroy /ms-playwright /app /home/patchtroy
+
 WORKDIR /app
 
 # Copy dependency definition and source code
@@ -45,10 +52,7 @@ COPY src/ /app/src/
 
 # Install patchtroy with REST microservice extras and download Chromium
 RUN pip install --no-cache-dir ".[server]" \
-    && patchright install chromium
-
-# Create unprivileged user
-RUN useradd -m -u 1000 patchtroy \
+    && patchright install chromium \
     && chown -R patchtroy:patchtroy /app /ms-playwright
 
 USER patchtroy
