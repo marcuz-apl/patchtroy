@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import random
-import sys
 from typing import Any
 from urllib.parse import urlparse
 
@@ -56,17 +55,33 @@ def is_valid_url(url: str) -> bool:
         return False
 
 
-def silence_windows_proactor_bug() -> None:
-    """Silence known Python Windows asyncio proactor pipe transport bug.
+def silence_subprocess_transport_bug() -> None:
+    """Silence Python asyncio BaseSubprocessTransport and pipe transport destructor errors.
 
-    On Windows, when an asyncio subprocess transport is garbage collected after
-    loop shutdown, _ProactorBasePipeTransport.__del__ and BaseSubprocessTransport.__del__
-    call __repr__, which calls fileno() on a closed pipe handle and raises
-    ValueError: I/O operation on closed pipe. This wraps both destructors to cleanly
-    catch and ignore closed pipe errors during interpreter teardown.
+    When an event loop finishes and closes (via asyncio.run), underlying child process
+    transports may remain in the garbage collector until interpreter exit. During GC,
+    their __del__ destructors attempt post-loop cleanup:
+      - On Unix/Linux: calls self.close() -> loop.call_soon() -> RuntimeError('Event loop is closed')
+      - On Windows: calls _warn() -> __repr__() -> fileno() -> ValueError('I/O operation on closed pipe')
+    Wrapping both destructors safely catches and suppresses these post-loop cleanup errors across
+    all platforms (Linux, macOS, Windows).
     """
-    if sys.platform != "win32":
-        return
+    try:
+        from asyncio.base_subprocess import BaseSubprocessTransport
+
+        orig_sub_del = getattr(BaseSubprocessTransport, "__del__", None)
+        if orig_sub_del and not getattr(BaseSubprocessTransport, "_patchtroy_safe", False):
+
+            def _safe_sub_del(self: Any, *args: Any, **kwargs: Any) -> None:
+                try:
+                    orig_sub_del(self, *args, **kwargs)
+                except (RuntimeError, ValueError, OSError):
+                    pass
+
+            BaseSubprocessTransport.__del__ = _safe_sub_del  # type: ignore[method-assign]
+            BaseSubprocessTransport._patchtroy_safe = True  # type: ignore[attr-defined]
+    except Exception:
+        pass
 
     try:
         from asyncio.proactor_events import _ProactorBasePipeTransport
@@ -77,7 +92,7 @@ def silence_windows_proactor_bug() -> None:
             def _safe_pipe_del(self: Any, *args: Any, **kwargs: Any) -> None:
                 try:
                     orig_pipe_del(self, *args, **kwargs)
-                except (ValueError, OSError):
+                except (RuntimeError, ValueError, OSError):
                     pass
 
             _ProactorBasePipeTransport.__del__ = _safe_pipe_del  # type: ignore[method-assign]
@@ -85,19 +100,6 @@ def silence_windows_proactor_bug() -> None:
     except Exception:
         pass
 
-    try:
-        from asyncio.base_subprocess import BaseSubprocessTransport
 
-        orig_sub_del = getattr(BaseSubprocessTransport, "__del__", None)
-        if orig_sub_del and not getattr(BaseSubprocessTransport, "_patchtroy_safe", False):
-
-            def _safe_sub_del(self: Any, *args: Any, **kwargs: Any) -> None:
-                try:
-                    orig_sub_del(self, *args, **kwargs)
-                except (ValueError, OSError):
-                    pass
-
-            BaseSubprocessTransport.__del__ = _safe_sub_del  # type: ignore[method-assign]
-            BaseSubprocessTransport._patchtroy_safe = True  # type: ignore[attr-defined]
-    except Exception:
-        pass
+# Backwards-compatible alias
+silence_windows_proactor_bug = silence_subprocess_transport_bug
