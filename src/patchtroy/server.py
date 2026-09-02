@@ -157,7 +157,7 @@ def create_app() -> FastAPI:
     return app
 
 
-def run_server(host: str = "0.0.0.0", port: int = 8000, reload: bool = False) -> None:
+def run_server(host: str = "0.0.0.0", port: int = 4013, reload: bool = False) -> None:
     """Launch the Uvicorn ASGI server."""
     try:
         import uvicorn

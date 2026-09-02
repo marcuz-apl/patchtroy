@@ -32,8 +32,8 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument(
         "--port",
         type=int,
-        default=8000,
-        help="Port for REST microservice (default: 8000)",
+        default=4013,
+        help="Port for REST microservice (default: 4013)",
     )
     parser.add_argument(
         "-o", "--output", help="Output file path (default: print to stdout)"

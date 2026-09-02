@@ -169,20 +169,20 @@ for chunk in chunks:
 Launch Patchtroy as a standalone microservice for non-Python applications (Node.js, Go, Rust, Ruby):
 
 ```bash
-# Start microservice on port 8000
-patchtroy serve --port 8000
+# Start microservice on port 4013
+patchtroy serve --port 4013
 ```
 
 #### Scrape Endpoint
 ```bash
-curl -X POST http://localhost:8000/scrape \
+curl -X POST http://localhost:4013/scrape \
   -H "Content-Type: application/json" \
   -d '{"url": "https://news.ycombinator.com", "screenshot": true}'
 ```
 
 #### Batch Scrape Endpoint
 ```bash
-curl -X POST http://localhost:8000/scrape/batch \
+curl -X POST http://localhost:4013/scrape/batch \
   -H "Content-Type: application/json" \
   -d '{"urls": ["https://site1.com", "https://site2.com"], "concurrency": 5}'
 ```
@@ -195,7 +195,7 @@ Run Patchtroy as a self-hosted microservice with zero local dependencies:
 
 ```bash
 # Pull and run with Docker
-docker run -d -p 8000:8000 --name patchtroy marcuszou/patchtroy:latest
+docker run -d -p 4013:4013 --name patchtroy marcuszou/patchtroy:latest
 
 # Or launch with Docker Compose
 docker compose up -d
@@ -225,7 +225,7 @@ patchtroy https://example.com --screenshot full.png --full-page
 patchtroy https://site1.com https://site2.com --proxy-file proxies.txt -c 5 -o batch_out.md
 
 # Start REST API microservice
-patchtroy serve --host 0.0.0.0 --port 8000
+patchtroy serve --host 0.0.0.0 --port 4013
 ```
 
 ---

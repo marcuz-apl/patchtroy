@@ -20,7 +20,7 @@ Phase 3 transitions **Patchtroy** from a Python-only crawler into a complete, la
   - `POST /scrape`: Scrapes single target URL with options for screenshots, PDFs, selectors, custom schemas, and proxies.
   - `POST /scrape/batch`: Concurrent multi-URL scraping sharing the browser pool.
 - **CLI Integration**:
-  - `patchtroy serve --host 0.0.0.0 --port 8000`
+  - `patchtroy serve --host 0.0.0.0 --port 4013`
 
 ### 3. Production Docker Deployment
 - **[Dockerfile](file:///mnt/ubt24-vdisk1/projects/patchtroy/Dockerfile)**: Minimal Debian Python 3.11 image pre-configured with Patchright Chromium headless binaries, running as unprivileged user `patchtroy`.

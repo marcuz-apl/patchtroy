@@ -53,10 +53,10 @@ RUN useradd -m -u 1000 patchtroy \
 
 USER patchtroy
 
-EXPOSE 8000
+EXPOSE 4013
 
 HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
-    CMD curl -f http://localhost:8000/health || exit 1
+    CMD curl -f http://localhost:4013/health || exit 1
 
 ENTRYPOINT ["patchtroy"]
-CMD ["--serve", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["--serve", "--host", "0.0.0.0", "--port", "4013"]

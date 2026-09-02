@@ -23,7 +23,7 @@ Phase 3 expands Patchtroy into a language-agnostic microservice and a complete R
   - `POST /scrape`: Scrapes single URL. Accepts `ScrapeRequest` JSON payload (`url`, `wait_for`, `screenshot`, `full_page`, `pdf`, `custom_schema`, `timeout`, `proxy`). Returns `ScrapeResult`.
   - `POST /scrape/batch`: Batch scraping endpoint accepting `urls: list[str]` and `concurrency: int`.
 - **CLI Subcommand**:
-  - `patchtroy serve --host 0.0.0.0 --port 8000 --workers 1`
+  - `patchtroy serve --host 0.0.0.0 --port 4013 --workers 1`
   - Integrated into existing `cli.py` arguments.
 
 ### 2. Token Counting & Markdown Chunking (`src/patchtroy/chunker.py`)
@@ -45,8 +45,8 @@ Phase 3 expands Patchtroy into a language-agnostic microservice and a complete R
   - Installs Patchright and Chromium runtime system dependencies.
   - Installs `patchtroy[server]`.
   - Runs as non-root user `patchtroy`.
-  - Configures `HEALTHCHECK` against `http://localhost:8000/health`.
-  - Default command: starts FastAPI server on port 8000.
+  - Configures `HEALTHCHECK` against `http://localhost:4013/health`.
+  - Default command: starts FastAPI server on port 4013.
 - **`docker-compose.yml`**:
   - Convenience setup for local orchestration.
 - **`.dockerignore`**:
@@ -111,4 +111,4 @@ Phase 3 expands Patchtroy into a language-agnostic microservice and a complete R
 
 ### Manual & CLI Verification
 - Test `patchtroy serve --help` and spin up local server test.
-- Test `curl -X POST http://localhost:8000/scrape` with test payload.
+- Test `curl -X POST http://localhost:4013/scrape` with test payload.
