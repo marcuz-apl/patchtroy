@@ -9,8 +9,9 @@ from pathlib import Path
 
 from patchtroy.crawler import Patchtroy
 from patchtroy.models import PatchtroyConfig
+from patchtroy.utils import silence_windows_proactor_bug
 
-__version__ = "0.4.4"
+__version__ = "0.4.5"
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -129,67 +130,69 @@ def main(argv: list[str] | None = None) -> int:
         pdf_path=args.pdf,
     )
 
+    silence_windows_proactor_bug()
     crawler = Patchtroy(config)
 
-    # Single URL execution
-    if len(args.urls) == 1:
-        target_url = args.urls[0]
-        result = crawler.scrape(target_url)
+    with crawler:
+        # Single URL execution
+        if len(args.urls) == 1:
+            target_url = args.urls[0]
+            result = crawler.scrape(target_url)
 
-        if not result.success and not result.markdown:
-            sys.stderr.write(f"Error scraping {target_url}: {result.error}\n")
-            return 1
+            if not result.success and not result.markdown:
+                sys.stderr.write(f"Error scraping {target_url}: {result.error}\n")
+                return 1
+
+            if args.format == "json":
+                # Avoid serializing raw media bytes directly into standard JSON
+                dump_data = result.model_dump(exclude={"screenshot_bytes", "pdf_bytes"})
+                content = json.dumps(dump_data, indent=2, ensure_ascii=False)
+            elif args.format == "html":
+                content = result.html
+            else:
+                header = f"# {result.title}\n\nSource: {result.url}\n\n" if result.title else ""
+                content = header + result.markdown
+
+            if args.output:
+                Path(args.output).write_text(content, encoding="utf-8")
+                sys.stderr.write(f"[Patchtroy] Extracted content saved to {args.output} ({len(content)} chars)\n")
+            else:
+                print(content)
+
+            if args.screenshot and result.screenshot_bytes:
+                sys.stderr.write(f"[Patchtroy] Screenshot saved to {args.screenshot}\n")
+            if args.pdf and result.pdf_bytes:
+                sys.stderr.write(f"[Patchtroy] PDF saved to {args.pdf}\n")
+
+            return 0
+
+        # Batch URLs execution
+        sys.stderr.write(f"[Patchtroy] Batch scraping {len(args.urls)} URLs (concurrency: {args.concurrency})...\n")
+        results = crawler.scrape_many(args.urls)
 
         if args.format == "json":
-            # Avoid serializing raw media bytes directly into standard JSON
-            dump_data = result.model_dump(exclude={"screenshot_bytes", "pdf_bytes"})
+            dump_data = [
+                r.model_dump(exclude={"screenshot_bytes", "pdf_bytes"})
+                for r in results
+            ]
             content = json.dumps(dump_data, indent=2, ensure_ascii=False)
-        elif args.format == "html":
-            content = result.html
         else:
-            header = f"# {result.title}\n\nSource: {result.url}\n\n" if result.title else ""
-            content = header + result.markdown
+            combined = []
+            for r in results:
+                if r.success:
+                    header = f"# {r.title}\n\nSource: {r.url}\n\n" if r.title else f"Source: {r.url}\n\n"
+                    combined.append(header + r.markdown)
+                else:
+                    combined.append(f"<!-- Failed: {r.url} ({r.error}) -->")
+            content = "\n\n---\n\n".join(combined)
 
         if args.output:
             Path(args.output).write_text(content, encoding="utf-8")
-            sys.stderr.write(f"[Patchtroy] Extracted content saved to {args.output} ({len(content)} chars)\n")
+            sys.stderr.write(f"[Patchtroy] Batch results saved to {args.output}\n")
         else:
             print(content)
 
-        if args.screenshot and result.screenshot_bytes:
-            sys.stderr.write(f"[Patchtroy] Screenshot saved to {args.screenshot}\n")
-        if args.pdf and result.pdf_bytes:
-            sys.stderr.write(f"[Patchtroy] PDF saved to {args.pdf}\n")
-
         return 0
-
-    # Batch URLs execution
-    sys.stderr.write(f"[Patchtroy] Batch scraping {len(args.urls)} URLs (concurrency: {args.concurrency})...\n")
-    results = crawler.scrape_many(args.urls)
-
-    if args.format == "json":
-        dump_data = [
-            r.model_dump(exclude={"screenshot_bytes", "pdf_bytes"})
-            for r in results
-        ]
-        content = json.dumps(dump_data, indent=2, ensure_ascii=False)
-    else:
-        combined = []
-        for r in results:
-            if r.success:
-                header = f"# {r.title}\n\nSource: {r.url}\n\n" if r.title else f"Source: {r.url}\n\n"
-                combined.append(header + r.markdown)
-            else:
-                combined.append(f"<!-- Failed: {r.url} ({r.error}) -->")
-        content = "\n\n---\n\n".join(combined)
-
-    if args.output:
-        Path(args.output).write_text(content, encoding="utf-8")
-        sys.stderr.write(f"[Patchtroy] Batch results saved to {args.output}\n")
-    else:
-        print(content)
-
-    return 0
 
 
 if __name__ == "__main__":

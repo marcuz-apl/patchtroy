@@ -6,7 +6,7 @@ from patchtroy.models import LinkItem, PatchtroyConfig, ScrapeResult
 from patchtroy.pool import BrowserContextPool
 from patchtroy.proxy import ProxyItem, ProxyManager
 
-__version__ = "0.4.4"
+__version__ = "0.4.5"
 __author__ = "Marcus Zou"
 __license__ = "Apache-2.0"
 __copyright__ = "Copyright 2026 Alfazen Inc."

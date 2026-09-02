@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import asyncio
 import logging
+import sys
 from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
 from typing import Any
@@ -88,6 +89,9 @@ class BrowserContextPool:
                 except Exception:
                     pass
                 self._playwright = None
+
+            if sys.platform == "win32":
+                await asyncio.sleep(0.05)
 
     @asynccontextmanager
     async def acquire_context(

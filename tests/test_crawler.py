@@ -40,3 +40,18 @@ def test_sync_scrape_many():
     results = crawler.scrape_many(urls)
     assert len(results) == 2
     assert all(not r.success for r in results)
+    crawler.close()
+
+
+def test_sync_context_manager():
+    with Patchtroy() as crawler:
+        res = crawler.scrape("ftp://bad-url")
+        assert res.success is False
+
+
+def test_silence_windows_proactor_bug():
+    from patchtroy.utils import silence_windows_proactor_bug
+
+    # Should execute cleanly across all platforms
+    silence_windows_proactor_bug()
+

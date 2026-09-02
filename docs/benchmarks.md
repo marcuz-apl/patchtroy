@@ -1,6 +1,6 @@
 # 📊 Benchmarks vs Crawl4AI and Firecrawl
 
-A quantitative, reproducible benchmark comparing **Patchtroy (v0.4.4)** against **Crawl4AI (v0.9.3)** and **Firecrawl (Self-Hosted)**.
+A quantitative, reproducible benchmark comparing **Patchtroy (v0.4.5)** against **Crawl4AI (v0.9.3)** and **Firecrawl (Self-Hosted)**.
 
 ---
 

@@ -19,7 +19,12 @@ from patchtroy.extractors import (
 from patchtroy.models import LinkItem, PatchtroyConfig, ScrapeResult
 from patchtroy.pool import BrowserContextPool
 from patchtroy.proxy import ProxyManager
-from patchtroy.utils import STEALTH_INJECTION_SCRIPT, get_random_user_agent, is_valid_url
+from patchtroy.utils import (
+    STEALTH_INJECTION_SCRIPT,
+    get_random_user_agent,
+    is_valid_url,
+    silence_windows_proactor_bug,
+)
 
 logger = logging.getLogger("patchtroy.crawler")
 
@@ -312,11 +317,30 @@ class AsyncPatchtroy:
             return await client.scrape_many(urls, wait_for=wait_for, custom_schema=custom_schema)
 
 
+def _run_sync(coro: Any) -> Any:
+    """Execute coroutine synchronously with Windows proactor event loop protections."""
+    silence_windows_proactor_bug()
+    if sys.platform == "win32":
+        asyncio.set_event_loop_policy(asyncio.WindowsProactorEventLoopPolicy())
+    return asyncio.run(coro)
+
+
 class Patchtroy:
     """Synchronous wrapper for Patchtroy crawler execution."""
 
     def __init__(self, config: PatchtroyConfig | dict[str, Any] | None = None) -> None:
-        self._async_crawler = AsyncPatchtroy(config)
+        self.config = (
+            PatchtroyConfig(**config)
+            if isinstance(config, dict)
+            else (config or PatchtroyConfig())
+        )
+        silence_windows_proactor_bug()
+        self._async_crawler: AsyncPatchtroy | None = None
+
+    def _get_crawler(self) -> AsyncPatchtroy:
+        if self._async_crawler is None:
+            self._async_crawler = AsyncPatchtroy(self.config)
+        return self._async_crawler
 
     def scrape(
         self,
@@ -325,9 +349,8 @@ class Patchtroy:
         custom_schema: dict[str, Any] | None = None,
     ) -> ScrapeResult:
         """Execute scrape synchronously in an event loop."""
-        if sys.platform == "win32":
-            asyncio.set_event_loop_policy(asyncio.WindowsProactorEventLoopPolicy())
-        return asyncio.run(self._async_crawler.scrape(url, wait_for=wait_for, custom_schema=custom_schema))
+        crawler = self._get_crawler()
+        return _run_sync(crawler.scrape(url, wait_for=wait_for, custom_schema=custom_schema))
 
     def scrape_many(
         self,
@@ -336,9 +359,22 @@ class Patchtroy:
         custom_schema: dict[str, Any] | None = None,
     ) -> list[ScrapeResult]:
         """Execute concurrent batch scraping synchronously."""
-        if sys.platform == "win32":
-            asyncio.set_event_loop_policy(asyncio.WindowsProactorEventLoopPolicy())
-        return asyncio.run(self._async_crawler.scrape_many(urls, wait_for=wait_for, custom_schema=custom_schema))
+        crawler = self._get_crawler()
+        return _run_sync(crawler.scrape_many(urls, wait_for=wait_for, custom_schema=custom_schema))
+
+    def close(self) -> None:
+        """Close browser pool and cleanup resources."""
+        if self._async_crawler is not None:
+            try:
+                _run_sync(self._async_crawler.close())
+            finally:
+                self._async_crawler = None
+
+    def __enter__(self) -> Patchtroy:
+        return self
+
+    def __exit__(self, exc_type: Any, exc_val: Any, exc_tb: Any) -> None:
+        self.close()
 
     @classmethod
     def crawl(
@@ -351,9 +387,7 @@ class Patchtroy:
         pdf: bool = False,
     ) -> ScrapeResult:
         """Synchronous one-shot convenience function for scraping."""
-        if sys.platform == "win32":
-            asyncio.set_event_loop_policy(asyncio.WindowsProactorEventLoopPolicy())
-        return asyncio.run(
+        return _run_sync(
             AsyncPatchtroy.crawl(
                 url,
                 headless=headless,
@@ -374,9 +408,7 @@ class Patchtroy:
         custom_schema: dict[str, Any] | None = None,
     ) -> list[ScrapeResult]:
         """Synchronous one-shot convenience function for concurrent batch crawling."""
-        if sys.platform == "win32":
-            asyncio.set_event_loop_policy(asyncio.WindowsProactorEventLoopPolicy())
-        return asyncio.run(
+        return _run_sync(
             AsyncPatchtroy.crawl_many(
                 urls,
                 headless=headless,

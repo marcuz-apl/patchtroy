@@ -90,16 +90,16 @@ def create_app() -> FastAPI:
     app = FastAPI(
         title="Patchtroy REST Microservice",
         description="Undetected stealth web scraper & clean Markdown extractor for LLMs.",
-        version="0.4.4",
+        version="0.4.5",
         lifespan=lifespan,
     )
 
-    @app.get("/health")
+    @app.get("/health", tags=["Health"])
     async def health_check() -> dict[str, Any]:
         """Microservice health and status check."""
         return {
             "status": "healthy",
-            "version": "0.4.4",
+            "version": "0.4.5",
             "engine": "patchright",
             "active": crawler_instance is not None and crawler_instance._pool.is_running,
         }
