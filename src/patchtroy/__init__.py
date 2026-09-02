@@ -8,7 +8,8 @@ from patchtroy.proxy import ProxyItem, ProxyManager
 
 __version__ = "0.4.0"
 __author__ = "Marcus Zou"
-__license__ = "MIT"
+__license__ = "Apache-2.0"
+__copyright__ = "Copyright 2026 Alfazen Inc."
 
 __all__ = [
     "AsyncPatchtroy",

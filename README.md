@@ -3,7 +3,7 @@
 **The undetected stealth web scraper & clean Markdown extractor for LLMs and AI pipelines.**
 
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Engine: Patchright](https://img.shields.io/badge/Stealth%20Engine-Patchright-orange)](https://github.com/kaliiiiiiiiii/patchright)
 [![Extractor: Trafilatura](https://img.shields.io/badge/Extraction-Trafilatura-green)](https://github.com/adbar/trafilatura)
 
@@ -247,4 +247,4 @@ Patchtroy eliminates these detection vectors by:
 
 ## 📄 License
 
-MIT License © 2026 Marcus Zou / Patchtroy Authors.
+Patchtroy is open-source software created by **Marcus Zou** and maintained by **Alfazen Inc.**, released under the **[Apache 2.0 License](LICENSE)**.
