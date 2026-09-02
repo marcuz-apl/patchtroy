@@ -1,12 +1,12 @@
 # Stealth Architecture & Undetected Automation
 
-Modern web applications protect content using sophisticated perimeter defense systems such as **Cloudflare Turnstile**, **DataDome**, **PerimeterX**, and **Akamai**.
+Modern web applications deploy sophisticated browser fingerprinting and client-side challenge mechanisms to distinguish between interactive user sessions and automated scripts.
 
 Standard browser automation frameworks (e.g. vanilla Playwright, Puppeteer, Selenium) fail on these challenges due to low-level runtime leakages.
 
 ---
 
-## 🔍 How Bot Detectors Identify Automation
+## 🔍 How Automated Browsers Are Detected
 
 1. **Chrome DevTools Protocol (CDP) Telemetry**:
    Vanilla Playwright calls `Runtime.enable` to control the page. Device fingerprinting scripts intercept this and detect active CDP bindings immediately.

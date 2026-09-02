@@ -7,7 +7,7 @@
 
 ## 1. Executive Summary
 
-Modern AI and LLM data engineering pipelines demand clean, noise-free Markdown extraction from dynamic JavaScript web applications with consistent resilience across modern web perimeters (Cloudflare Turnstile, DataDome, PerimeterX).
+Modern AI and LLM data engineering pipelines demand clean, noise-free Markdown extraction from dynamic JavaScript web applications with consistent resilience across modern web perimeters and client-side challenge walls.
 
 Existing open-source solutions force developers to choose between:
 - **Heavily bloated frameworks** (e.g. Crawl4AI) that drag in gigabytes of PyTorch/Transformer dependencies and leak Chrome DevTools Protocol (CDP) signatures.
@@ -22,7 +22,7 @@ Existing open-source solutions force developers to choose between:
 | Dimension | **Patchtroy** (v0.4.0) | **Crawl4AI** (v0.9.3) | **Firecrawl** (Self-Hosted) |
 | :--- | :---: | :---: | :---: |
 | **Stealth Engine** | **✅ Native Patchright (C++ CDP masked)** | ❌ Standard Playwright (CDP leaked) | ⚠️ Standard Playwright / Puppeteer |
-| **Cloudflare / DataDome Resilience** | **✅ Native driver protection** | ❌ Frequently flagged on Turnstile | ❌ Blocked unless using paid SaaS proxy |
+| **Dynamic Challenge Resilience** | **✅ Native driver protection** | ❌ Frequently flagged on automated checks | ❌ Blocked unless using paid SaaS proxy |
 | **Boilerplate Stripper** | **✅ Trafilatura Algorithmic** | ⚠️ Heuristic CSS / Regex | ✅ Readability / Custom DOM |
 | **Package Weight (Disk)** | **✅ < 15 MB** (Pure Python) | ❌ > 1.2 GB (PyTorch, HuggingFace) | ❌ > 1.8 GB (Node, Redis, Docker stack) |
 | **Cold Start Latency** | **✅ ~1.0 s** | ❌ 4.5 – 8.0 s (Model loading) | ❌ 3.0 – 6.0 s (Multi-service queue) |
@@ -69,10 +69,10 @@ Tested using structure-aware heading-preserving chunking (`result.chunk(max_toke
 
 | Stealth Signature | Patchtroy | Standard Playwright (Crawl4AI) | Detection Risk |
 | :--- | :---: | :---: | :---: |
-| `navigator.webdriver` | `undefined` | `true` | **Immediate Block (Cloudflare)** |
-| `window.chrome.runtime` | Present & Emulated | Missing / Null | **Flagged (DataDome)** |
-| `navigator.permissions.query` | Masked ('default') | Leaks automated context | **Flagged (PerimeterX)** |
-| Chrome DevTools Protocol (`CDP`) | **Patched C++ binary (zero telemetry)** | Leaks `Runtime.enable` | **Hardware Fingerprint Block** |
+| `navigator.webdriver` | `undefined` | `true` | **Immediate Automation Flag** |
+| `window.chrome.runtime` | Present & Emulated | Missing / Null | **Flagged as Non-Standard Client** |
+| `navigator.permissions.query` | Masked ('default') | Leaks automated context | **Flagged by Client Heuristics** |
+| Chrome DevTools Protocol (`CDP`) | **Patched C++ binary (zero telemetry)** | Leaks `Runtime.enable` | **Hardware Fingerprint Flag** |
 
 ---
 

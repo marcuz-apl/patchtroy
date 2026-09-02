@@ -13,7 +13,7 @@
 
 **Patchtroy** is a lightweight, high-performance web crawling and content extraction engine designed specifically for LLMs and AI pipelines.
 
-It bridges the gap between low-level stealth drivers and high-level scrapers by coupling **Patchright** (the undetected Playwright fork that prevents Cloudflare, DataDome, and PerimeterX CDP leaks) with **Trafilatura** (the gold standard for algorithmic boilerplate removal and pristine Markdown conversion).
+It bridges the gap between low-level drivers and high-level scrapers by coupling **Patchright** (the C++ patched Chromium engine that eliminates automated telemetry leakages) with **Trafilatura** (the gold standard for algorithmic boilerplate removal and pristine Markdown conversion).
 
 ### 🎯 Why Patchtroy?
 

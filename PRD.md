@@ -20,8 +20,8 @@ By coupling **Patchright** (the C++-patched undetected Playwright engine) with *
 ### 2.1 The Current Problem
 LLMs require high-quality, noise-free Markdown for RAG (Retrieval-Augmented Generation) and fine-tuning. However, developers face a painful dilemma:
 1. **Low-level drivers (Patchright, Playwright)** render dynamic JS, but provide no content cleaning or Markdown extraction.
-2. **Text extractors (Trafilatura, Readability)** produce pristine Markdown, but fail completely on JavaScript SPAs and Cloudflare challenges.
-3. **Existing all-in-one frameworks (Crawl4AI)** rely on standard Playwright (which triggers Cloudflare/DataDome CDP detection) and are bloated with heavy PyTorch/Transformer dependencies.
+2. **Text extractors (Trafilatura, Readability)** produce pristine Markdown, but fail completely on JavaScript SPAs and dynamic client challenges.
+3. **Existing all-in-one frameworks (Crawl4AI)** rely on standard Playwright (which triggers standard CDP detection) and are bloated with heavy PyTorch/Transformer dependencies.
 4. **Commercial APIs (Firecrawl SaaS, Jina Reader)** introduce vendor lock-in, rate limits, and recurring subscription costs.
 
 ### 2.2 The Patchtroy Solution
