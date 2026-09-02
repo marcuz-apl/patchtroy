@@ -59,4 +59,4 @@ HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
     CMD curl -f http://localhost:4013/health || exit 1
 
 ENTRYPOINT ["patchtroy"]
-CMD ["--serve", "--host", "0.0.0.0", "--port", "4013"]
+CMD ["serve", "--host", "0.0.0.0", "--port", "4013"]
