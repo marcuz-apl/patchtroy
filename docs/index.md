@@ -13,13 +13,13 @@
 
 **Patchtroy** is a lightweight, high-performance web crawling and content extraction engine designed specifically for LLMs and AI pipelines.
 
-It bridges the gap between low-level stealth drivers and high-level scrapers by coupling **Patchright** (the undetected Playwright fork that evades Cloudflare, DataDome, and PerimeterX CDP leaks) with **Trafilatura** (the gold standard for algorithmic boilerplate removal and pristine Markdown conversion).
+It bridges the gap between low-level stealth drivers and high-level scrapers by coupling **Patchright** (the undetected Playwright fork that prevents Cloudflare, DataDome, and PerimeterX CDP leaks) with **Trafilatura** (the gold standard for algorithmic boilerplate removal and pristine Markdown conversion).
 
 ### 🎯 Why Patchtroy?
 
 | Feature | Crawl4AI | Firecrawl (Self-hosted) | **Patchtroy** |
 | :--- | :---: | :---: | :---: |
-| **Stealth Anti-Bot** | ❌ Standard Playwright (CDP leaked) | ❌ Blocked without paid SaaS proxy | **✅ Native Patchright Stealth** |
+| **Stealth Engine** | ❌ Standard Playwright (CDP leaked) | ❌ Blocked without paid SaaS proxy | **✅ Native Patchright Stealth** |
 | **Boilerplate Stripping** | ⚠️ Heuristic regex / CSS | ✅ Full DOM clean | **✅ Trafilatura Gold Standard** |
 | **Framework Data** | ⚠️ Partial regex | ✅ | **✅ Native Next.js (`__NEXT_DATA__`) & Schema.org JSON-LD** |
 | **Dependencies** | ❌ Heavy (PyTorch, Transformers, ML) | ❌ Complex (Node, Redis, BullMQ) | **✅ Ultra-lean (< 15MB pure Python)** |

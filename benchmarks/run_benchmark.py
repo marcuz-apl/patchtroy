@@ -46,7 +46,7 @@ def benchmark_extraction_and_cleaning() -> dict[str, float]:
                 <h1>Artificial Intelligence and Modern Web Scraping</h1>
                 <p class="byline">By Engineering Team | Published September 2026</p>
                 <p>Retrieval-Augmented Generation (RAG) requires pristine textual inputs without navigation boilerplate or tracking scripts.</p>
-                <h2>The Anti-Bot Challenge</h2>
+                <h2>The Modern Web Challenge</h2>
                 <p>Modern CDNs deploy sophisticated device fingerprinting that inspects Chrome DevTools Protocol artifacts.</p>
                 <p>By patching Chromium at the C++ level, Patchright eliminates detection vectors before scripts execute.</p>
             </article>
@@ -115,7 +115,7 @@ RAG connects static neural models with external living knowledge stores. High-qu
 
 
 def verify_stealth_signatures() -> dict[str, bool]:
-    """Check presence of required anti-bot stealth evasions."""
+    """Check presence of required stealth protections."""
     script = STEALTH_INJECTION_SCRIPT
     return {
         "masks_navigator_webdriver": "navigator, 'webdriver'" in script,
@@ -147,7 +147,7 @@ def main() -> int:
     print(f"  • Generated Chunks: {chunk_metrics['chunks_per_doc']} chunks/doc")
 
     # 3. Stealth Verification
-    print("[3/3] Verifying Stealth Anti-Bot Evasions...")
+    print("[3/3] Verifying Stealth Protections...")
     stealth = verify_stealth_signatures()
     for check, passed in stealth.items():
         status = "PASSED" if passed else "FAILED"

@@ -9,7 +9,7 @@
 
 ## 1. Executive Summary
 
-**Patchtroy** is a standalone open-source Python library, CLI, and microservice designed to convert any dynamic web page into clean, LLM-ready Markdown and structured data without being blocked by modern anti-bot protections.
+**Patchtroy** is a standalone open-source Python library, CLI, and microservice designed to convert any dynamic web page into clean, LLM-ready Markdown and structured data with resilient execution across modern web perimeters.
 
 By coupling **Patchright** (the C++-patched undetected Playwright engine) with **Trafilatura** (the gold standard in algorithmic boilerplate removal and Markdown extraction), Patchtroy delivers superior stealth and content cleanliness with zero machine learning dependencies.
 
@@ -19,14 +19,14 @@ By coupling **Patchright** (the C++-patched undetected Playwright engine) with *
 
 ### 2.1 The Current Problem
 LLMs require high-quality, noise-free Markdown for RAG (Retrieval-Augmented Generation) and fine-tuning. However, developers face a painful dilemma:
-1. **Low-level drivers (Patchright, Playwright)** bypass protections or render JS, but provide no content cleaning or Markdown extraction.
+1. **Low-level drivers (Patchright, Playwright)** render dynamic JS, but provide no content cleaning or Markdown extraction.
 2. **Text extractors (Trafilatura, Readability)** produce pristine Markdown, but fail completely on JavaScript SPAs and Cloudflare challenges.
 3. **Existing all-in-one frameworks (Crawl4AI)** rely on standard Playwright (which triggers Cloudflare/DataDome CDP detection) and are bloated with heavy PyTorch/Transformer dependencies.
 4. **Commercial APIs (Firecrawl SaaS, Jina Reader)** introduce vendor lock-in, rate limits, and recurring subscription costs.
 
 ### 2.2 The Patchtroy Solution
 Patchtroy occupies the unoccupied **"Lightweight Stealth Sweet Spot"**:
-- Native Patchright C++ stealth bypass.
+- Native Patchright C++ stealth architecture.
 - Algorithmic Trafilatura extraction (zero ML overhead, <15MB install).
 - Native extraction of embedded Next.js (`__NEXT_DATA__`) and Schema.org JSON-LD payloads.
 - Automatic graceful HTTP fallback on browser timeout.
@@ -85,7 +85,7 @@ Patchtroy occupies the unoccupied **"Lightweight Stealth Sweet Spot"**:
 
 - **FR-02: Native Stealth Browser Automation**
   - Launch Patchright Chromium with `--disable-blink-features=AutomationControlled` and sandbox flags.
-  - Automatically inject stealth evasion scripts masking `navigator.webdriver` and emulating `window.chrome.runtime`.
+  - Automatically inject stealth configuration scripts masking `navigator.webdriver` and emulating `window.chrome.runtime`.
 
 - **FR-03: Trafilatura Markdown & Metadata Extraction**
   - Transform rendered HTML into clean, formatted Markdown.

@@ -19,7 +19,7 @@ It bridges the gap between low-level stealth drivers and high-level scrapers by 
 
 | Feature | Crawl4AI | Firecrawl (Self-hosted) | **Patchtroy** |
 | :--- | :---: | :---: | :---: |
-| **Stealth Anti-Bot** | ❌ Standard Playwright (CDP leaked) | ❌ Blocked unless using paid SaaS | **✅ Native Patchright Stealth** |
+| **Stealth Engine** | ❌ Standard Playwright (CDP leaked) | ❌ Blocked unless using paid SaaS | **✅ Native Patchright Stealth** |
 | **Boilerplate Stripping** | ⚠️ Heuristic regex | ✅ Full DOM clean | **✅ Trafilatura Gold Standard** |
 | **Framework Data** | ⚠️ Partial regex | ✅ | **✅ Native Next.js (`__NEXT_DATA__`) & Schema.org JSON-LD** |
 | **Dependencies** | ❌ Heavy (PyTorch, Transformers, ML) | ❌ Complex (Node, Redis, BullMQ) | **✅ Ultra-lean (< 15MB pure Python)** |
@@ -230,9 +230,9 @@ patchtroy serve --host 0.0.0.0 --port 4013
 
 ---
 
-## 🛡️ Anti-Bot Evasion Architecture
+## 🛡️ Stealth Architecture
 
-Most headless browsers get detected by modern anti-bot systems (Cloudflare Turnstile, DataDome, Akamai) due to **Chrome DevTools Protocol (CDP) leakages**:
+Most headless browsers get detected by modern bot protection systems (Cloudflare Turnstile, DataDome, Akamai) due to **Chrome DevTools Protocol (CDP) leakages**:
 - Standard Playwright injects `Runtime.enable` which triggers bot detection hooks.
 - `navigator.webdriver` is set to `true`.
 - Chrome runtime objects and plugins are missing or malformed.

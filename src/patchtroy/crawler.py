@@ -122,7 +122,7 @@ class AsyncPatchtroy:
         async with self._pool.acquire_context(user_agent=user_agent) as (context, used_proxy):
             page = await context.new_page()
             try:
-                # Inject stealth evasions
+                # Apply stealth browser configuration
                 await page.add_init_script(STEALTH_INJECTION_SCRIPT)
 
                 resp = await page.goto(

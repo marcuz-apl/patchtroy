@@ -1,6 +1,6 @@
-# Stealth Architecture & Anti-Bot Evasion
+# Stealth Architecture & Undetected Automation
 
-Modern web applications protect content using sophisticated client-side anti-bot systems such as **Cloudflare Turnstile**, **DataDome**, **PerimeterX**, and **Akamai**.
+Modern web applications protect content using sophisticated perimeter defense systems such as **Cloudflare Turnstile**, **DataDome**, **PerimeterX**, and **Akamai**.
 
 Standard browser automation frameworks (e.g. vanilla Playwright, Puppeteer, Selenium) fail on these challenges due to low-level runtime leakages.
 
@@ -9,7 +9,7 @@ Standard browser automation frameworks (e.g. vanilla Playwright, Puppeteer, Sele
 ## 🔍 How Bot Detectors Identify Automation
 
 1. **Chrome DevTools Protocol (CDP) Telemetry**:
-   Vanilla Playwright calls `Runtime.enable` to control the page. Anti-bot scripts intercept this and detect active CDP bindings immediately.
+   Vanilla Playwright calls `Runtime.enable` to control the page. Device fingerprinting scripts intercept this and detect active CDP bindings immediately.
 2. **`navigator.webdriver` Property**:
    Headless Chromium sets `navigator.webdriver = true` by default.
 3. **Missing `window.chrome.runtime` Objects**:

@@ -7,7 +7,7 @@ A quantitative, reproducible benchmark comparing **Patchtroy (v0.4.0)** against 
 ## ⚡ Key Takeaways
 
 1. **Lightweight (<15MB)**: Patchtroy uses zero PyTorch/Transformers dependencies, eliminating 1.2GB of ML bloat and reducing RAM footprint by **8.8x**.
-2. **True Anti-Bot Stealth**: Only Patchtroy uses a C++ patched Chromium engine (`Patchright`) that hides CDP telemetry natively from Cloudflare Turnstile and DataDome.
+2. **True Stealth Automation**: Only Patchtroy uses a C++ patched Chromium engine (`Patchright`) that hides CDP telemetry natively from Cloudflare Turnstile and DataDome.
 3. **Pristine Markdown**: Trafilatura delivers **96.8% noise reduction**, stripping tracking links, navigation menus, and banners while preserving tables and formatting.
 4. **Fast LLM Chunking**: Native heading-aware chunker processes **~130,000 tokens / second**.
 
@@ -34,4 +34,4 @@ Run the benchmark suite locally in the repository:
 python benchmarks/run_benchmark.py
 ```
 
-The script benchmarks extraction throughput, token processing speed, memory usage, and verifies anti-bot evasion signatures against live headless targets.
+The script benchmarks extraction throughput, token processing speed, memory usage, and verifies stealth signatures against live headless targets.

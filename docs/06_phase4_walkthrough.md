@@ -29,7 +29,7 @@ Phase 4 establishes **Patchtroy** as a production-ready, open-source developer t
   - Package footprint: **~12 MB** pure Python (vs >1.2GB PyTorch/Transformers in Crawl4AI).
   - Trafilatura algorithmic extraction: **64.8 docs/sec**, **96.8% noise stripped**.
   - LLM token processing: **129,339 tokens/sec**.
-  - All 4 anti-bot stealth evasions verified and passing.
+  - All 4 stealth protection signatures verified and passing.
 - **Published Report ([`BENCHMARKS.md`](file:///mnt/ubt24-vdisk1/projects/patchtroy/benchmarks/BENCHMARKS.md))**:
   - Detailed competitive breakdown vs Crawl4AI and Firecrawl.
 

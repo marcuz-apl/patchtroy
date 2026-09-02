@@ -43,7 +43,7 @@ Phase 4 establishes the public release readiness of **Patchtroy** at version **`
 - **Documentation Structure**:
   - `docs/index.md`: Overview, feature comparison, and architecture blueprint.
   - `docs/getting-started.md`: Installation, CLI usage, and Python quickstart.
-  - `docs/stealth-architecture.md`: C++ patched CDP masking and anti-bot evasion deep dive.
+  - `docs/stealth-architecture.md`: C++ patched CDP masking and stealth architecture deep dive.
   - `docs/context-pool.md`: High-throughput context pooling and batch scraping.
   - `docs/media-capture.md`: Screenshots and PDF export capabilities.
   - `docs/proxy-rotation.md`: Proxy pooling, strategies, and fault quarantine.
