@@ -7,8 +7,8 @@ import logging
 from typing import Any
 from urllib.parse import urljoin
 
-from bs4 import BeautifulSoup
 import trafilatura
+from bs4 import BeautifulSoup
 
 logger = logging.getLogger('patchtroy.extractors')
 

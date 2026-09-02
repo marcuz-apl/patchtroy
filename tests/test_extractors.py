@@ -1,9 +1,8 @@
-import json
 from patchtroy.extractors import (
     extract_markdown_and_metadata,
     extract_structured_data,
-    extract_links,
 )
+
 
 def test_extract_markdown():
     html = """

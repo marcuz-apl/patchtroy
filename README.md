@@ -101,7 +101,52 @@ for article in result.structured_data:
     print(article["headline"], "by", article["author"])
 ```
 
-### 5. CLI Usage
+### 5. High-Throughput Batch Crawling & Context Pool
+
+```python
+from patchtroy import Patchtroy
+
+urls = [
+    "https://news.ycombinator.com",
+    "https://github.com/trending",
+    "https://lobste.rs",
+]
+
+# Reuses a single browser process with isolated pooled contexts (>5x faster)
+results = Patchtroy.crawl_many(urls, max_concurrency=5)
+for res in results:
+    print(res.url, "->", res.title, f"({len(res.markdown)} chars)")
+```
+
+### 6. Screenshots & PDF Generation
+
+```python
+from patchtroy import Patchtroy
+
+# Capture screenshot & PDF in a single scrape
+result = Patchtroy.crawl("https://example.com", screenshot=True, pdf=True)
+
+# Save media files to disk
+result.save_screenshot("screenshot.png")
+result.save_pdf("document.pdf")
+```
+
+### 7. Proxy Rotation Manager
+
+```python
+from patchtroy import AsyncPatchtroy, PatchtroyConfig
+
+# Automatic round-robin rotation with quarantine on failure
+config = PatchtroyConfig(
+    proxies=["http://user:pass@proxy1:8080", "http://user:pass@proxy2:8080"],
+    proxy_strategy="round-robin",  # or "random"
+)
+
+async with AsyncPatchtroy(config) as client:
+    result = await client.scrape("https://example.com")
+```
+
+### 8. CLI Usage
 
 ```bash
 # Scrape to Markdown (prints to stdout)
@@ -112,6 +157,15 @@ patchtroy https://example.com -o output.md
 
 # Save complete JSON payload (markdown + metadata + structured items)
 patchtroy https://example.com -f json -o output.json
+
+# Capture viewport screenshot and PDF export
+patchtroy https://example.com --screenshot page.png --pdf document.pdf
+
+# Full-page screenshot
+patchtroy https://example.com --screenshot full.png --full-page
+
+# Batch scraping multiple URLs with proxy rotation and concurrency
+patchtroy https://site1.com https://site2.com --proxy-file proxies.txt -c 5 -o batch_out.md
 ```
 
 ---

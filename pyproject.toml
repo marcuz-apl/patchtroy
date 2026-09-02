@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "patchtroy"
-version = "0.1.0"
+version = "0.2.0"
 description = "Undetected stealth web scraper & markdown extractor for LLMs, pairing Patchright with Trafilatura."
 readme = "README.md"
 license = "MIT"
@@ -64,6 +64,10 @@ packages = ["src/patchtroy"]
 [tool.ruff]
 line-length = 100
 target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I"]
+ignore = ["E501"]
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"

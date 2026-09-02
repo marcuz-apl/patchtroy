@@ -139,10 +139,12 @@ Patchtroy occupies the unoccupied **"Lightweight Stealth Sweet Spot"**:
 - [x] CLI entry point.
 - [x] Unit and contract test suite (9 tests passing).
 
-### Phase 2 (v0.2.0)
-- [ ] Browser Context Pool (reusing browser instances across requests to achieve >5x throughput).
-- [ ] Screenshot & PDF capture modes.
-- [ ] Proxy rotation manager (residential proxy integration).
+### Phase 2 (v0.2.0 — Current)
+- [x] Browser Context Pool (reusing browser instances across requests to achieve >5x throughput).
+- [x] Screenshot & PDF capture modes.
+- [x] Proxy rotation manager (residential proxy integration).
+- [x] Concurrent batch crawling (`scrape_many` / `crawl_many`).
+- [x] Full test suite (24 tests passing).
 
 ### Phase 3 (v0.3.0)
 - [ ] Lightweight Docker container (`marcuszou/patchtroy:latest`).

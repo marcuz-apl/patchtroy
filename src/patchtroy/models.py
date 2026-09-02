@@ -2,7 +2,9 @@
 
 from __future__ import annotations
 
+from pathlib import Path
 from typing import Any
+
 from pydantic import BaseModel, ConfigDict, Field
 
 
@@ -49,7 +51,41 @@ class PatchtroyConfig(BaseModel):
     viewport_height: int = Field(default=800, ge=240, le=2160)
     proxy: str | None = Field(
         default=None,
-        description="Proxy URL (e.g. 'http://user:pass@host:port')."
+        description="Single proxy URL (e.g. 'http://user:pass@host:port')."
+    )
+    proxies: list[str] | str | None = Field(
+        default=None,
+        description="List of proxy URLs, comma-separated string, or path to proxy file for rotation."
+    )
+    proxy_strategy: str = Field(
+        default="round-robin",
+        description="Proxy rotation strategy: 'round-robin' or 'random'."
+    )
+    max_concurrency: int = Field(
+        default=5,
+        ge=1,
+        le=50,
+        description="Maximum concurrent browser contexts for batch scraping."
+    )
+    screenshot: bool = Field(
+        default=False,
+        description="Capture page screenshot."
+    )
+    full_page_screenshot: bool = Field(
+        default=False,
+        description="Capture full-page screenshot instead of viewport only."
+    )
+    screenshot_path: str | None = Field(
+        default=None,
+        description="Optional file path to automatically save screenshot to."
+    )
+    pdf: bool = Field(
+        default=False,
+        description="Generate page PDF (headless Chromium only)."
+    )
+    pdf_path: str | None = Field(
+        default=None,
+        description="Optional file path to automatically save PDF to."
     )
     custom_schema: dict[str, Any] | None = Field(
         default=None,
@@ -74,6 +110,8 @@ class ScrapeResult(BaseModel):
     structured_data: list[dict[str, Any]] = Field(default_factory=list)
     links: list[LinkItem] = Field(default_factory=list)
     metadata: dict[str, Any] = Field(default_factory=dict)
+    screenshot_bytes: bytes | None = None
+    pdf_bytes: bytes | None = None
     success: bool = True
     error: str | None = None
     engine_used: str = "patchright"
@@ -82,3 +120,21 @@ class ScrapeResult(BaseModel):
     @property
     def has_content(self) -> bool:
         return bool(self.markdown.strip() or self.structured_data)
+
+    def save_screenshot(self, filepath: str | Path) -> Path:
+        """Save screenshot bytes to disk."""
+        if not self.screenshot_bytes:
+            raise ValueError(f"No screenshot bytes available for {self.url}")
+        dest = Path(filepath)
+        dest.parent.mkdir(parents=True, exist_ok=True)
+        dest.write_bytes(self.screenshot_bytes)
+        return dest
+
+    def save_pdf(self, filepath: str | Path) -> Path:
+        """Save PDF bytes to disk."""
+        if not self.pdf_bytes:
+            raise ValueError(f"No PDF bytes available for {self.url}")
+        dest = Path(filepath)
+        dest.parent.mkdir(parents=True, exist_ok=True)
+        dest.write_bytes(self.pdf_bytes)
+        return dest
