@@ -138,3 +138,17 @@ class ScrapeResult(BaseModel):
         dest.parent.mkdir(parents=True, exist_ok=True)
         dest.write_bytes(self.pdf_bytes)
         return dest
+
+    def chunk(
+        self,
+        max_tokens: int = 2048,
+        overlap_tokens: int = 100,
+    ) -> list[Any]:
+        """Split extracted Markdown content into LLM-ready TextChunk records."""
+        from patchtroy.chunker import chunk_markdown
+        return chunk_markdown(
+            self.markdown,
+            max_tokens=max_tokens,
+            overlap_tokens=overlap_tokens,
+            metadata={"url": self.url, "title": self.title},
+        )

@@ -10,7 +10,7 @@ from pathlib import Path
 from patchtroy.crawler import Patchtroy
 from patchtroy.models import PatchtroyConfig
 
-__version__ = "0.2.0"
+__version__ = "0.3.0"
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -18,7 +18,23 @@ def main(argv: list[str] | None = None) -> int:
         prog="patchtroy",
         description="Undetected stealth web scraper & markdown extractor for LLMs.",
     )
-    parser.add_argument("urls", nargs="*", help="Target URL(s) to scrape")
+    parser.add_argument("urls", nargs="*", help="Target URL(s) to scrape or 'serve' command")
+    parser.add_argument(
+        "--serve",
+        action="store_true",
+        help="Start the FastAPI REST microservice",
+    )
+    parser.add_argument(
+        "--host",
+        default="0.0.0.0",
+        help="Host address for REST microservice (default: 0.0.0.0)",
+    )
+    parser.add_argument(
+        "--port",
+        type=int,
+        default=8000,
+        help="Port for REST microservice (default: 8000)",
+    )
     parser.add_argument(
         "-o", "--output", help="Output file path (default: print to stdout)"
     )
@@ -83,6 +99,13 @@ def main(argv: list[str] | None = None) -> int:
     )
 
     args = parser.parse_args(argv)
+
+    # Launch REST microservice if requested
+    if args.serve or (args.urls and args.urls[0] == "serve"):
+        from patchtroy.server import run_server
+        sys.stderr.write(f"[Patchtroy] Starting REST API on {args.host}:{args.port}...\n")
+        run_server(host=args.host, port=args.port)
+        return 0
 
     if not args.urls:
         parser.print_help()

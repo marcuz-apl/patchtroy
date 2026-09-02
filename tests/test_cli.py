@@ -51,3 +51,10 @@ def test_cli_batch_urls():
         config_arg = mock_cls.call_args[0][0]
         assert config_arg.max_concurrency == 4
         mock_instance.scrape_many.assert_called_once_with(["https://example.com/1", "https://example.com/2"])
+
+
+def test_cli_serve():
+    with patch("patchtroy.server.run_server") as mock_run:
+        ret = main(["serve", "--port", "9000", "--host", "127.0.0.1"])
+        assert ret == 0
+        mock_run.assert_called_once_with(host="127.0.0.1", port=9000)

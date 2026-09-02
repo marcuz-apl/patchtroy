@@ -146,7 +146,64 @@ async with AsyncPatchtroy(config) as client:
     result = await client.scrape("https://example.com")
 ```
 
-### 8. CLI Usage
+### 8. LLM Token Counting & Markdown Chunking
+
+Prepare crawled web content directly for RAG pipelines and vector stores:
+
+```python
+from patchtroy import Patchtroy
+
+result = Patchtroy.crawl("https://en.wikipedia.org/wiki/Artificial_intelligence")
+
+# Split into coherent, structure-preserving Markdown chunks (hierarchically splits by headings)
+chunks = result.chunk(max_tokens=1024, overlap_tokens=100)
+
+for chunk in chunks:
+    print(f"Chunk #{chunk.chunk_index} ({chunk.token_count} tokens):")
+    print("Section:", chunk.metadata.get("section_heading"))
+    print(chunk.text[:200], "\n---\n")
+```
+
+### 9. REST API Microservice (FastAPI)
+
+Launch Patchtroy as a standalone microservice for non-Python applications (Node.js, Go, Rust, Ruby):
+
+```bash
+# Start microservice on port 8000
+patchtroy serve --port 8000
+```
+
+#### Scrape Endpoint
+```bash
+curl -X POST http://localhost:8000/scrape \
+  -H "Content-Type: application/json" \
+  -d '{"url": "https://news.ycombinator.com", "screenshot": true}'
+```
+
+#### Batch Scrape Endpoint
+```bash
+curl -X POST http://localhost:8000/scrape/batch \
+  -H "Content-Type: application/json" \
+  -d '{"urls": ["https://site1.com", "https://site2.com"], "concurrency": 5}'
+```
+
+---
+
+## 🐳 Docker Deployment
+
+Run Patchtroy as a self-hosted microservice with zero local dependencies:
+
+```bash
+# Pull and run with Docker
+docker run -d -p 8000:8000 --name patchtroy marcuszou/patchtroy:latest
+
+# Or launch with Docker Compose
+docker compose up -d
+```
+
+---
+
+## 💻 CLI Usage
 
 ```bash
 # Scrape to Markdown (prints to stdout)
@@ -166,6 +223,9 @@ patchtroy https://example.com --screenshot full.png --full-page
 
 # Batch scraping multiple URLs with proxy rotation and concurrency
 patchtroy https://site1.com https://site2.com --proxy-file proxies.txt -c 5 -o batch_out.md
+
+# Start REST API microservice
+patchtroy serve --host 0.0.0.0 --port 8000
 ```
 
 ---

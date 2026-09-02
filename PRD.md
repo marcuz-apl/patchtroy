@@ -139,17 +139,18 @@ Patchtroy occupies the unoccupied **"Lightweight Stealth Sweet Spot"**:
 - [x] CLI entry point.
 - [x] Unit and contract test suite (9 tests passing).
 
-### Phase 2 (v0.2.0 — Current)
+### Phase 2 (v0.2.0)
 - [x] Browser Context Pool (reusing browser instances across requests to achieve >5x throughput).
 - [x] Screenshot & PDF capture modes.
 - [x] Proxy rotation manager (residential proxy integration).
 - [x] Concurrent batch crawling (`scrape_many` / `crawl_many`).
 - [x] Full test suite (24 tests passing).
 
-### Phase 3 (v0.3.0)
-- [ ] Lightweight Docker container (`marcuszou/patchtroy:latest`).
-- [ ] REST API microservice (FastAPI endpoint `/scrape` for non-Python applications).
-- [ ] Token counter & LLM chunking utility (`result.chunk(max_tokens=2048)`).
+### Phase 3 (v0.3.0 — Current)
+- [x] Lightweight Docker container (`marcuszou/patchtroy:latest`).
+- [x] REST API microservice (FastAPI endpoint `/scrape` and `/scrape/batch`).
+- [x] Token counter & LLM chunking utility (`result.chunk(max_tokens=2048)`).
+- [x] Full test suite (32 tests passing).
 
 ### Phase 4 (v1.0.0)
 - [ ] PyPI public release (`pip install patchtroy`).
