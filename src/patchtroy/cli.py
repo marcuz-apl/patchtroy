@@ -10,7 +10,7 @@ from pathlib import Path
 from patchtroy.crawler import Patchtroy
 from patchtroy.models import PatchtroyConfig
 
-__version__ = "0.3.0"
+__version__ = "0.4.0"
 
 
 def main(argv: list[str] | None = None) -> int:

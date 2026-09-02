@@ -28,6 +28,15 @@ Object.defineProperty(navigator, 'plugins', {
 Object.defineProperty(navigator, 'languages', {
     get: () => ['en-US', 'en'],
 });
+// Emulate permissions query
+if (window.navigator && window.navigator.permissions) {
+    const originalQuery = window.navigator.permissions.query;
+    window.navigator.permissions.query = (parameters) => (
+        parameters.name === 'notifications' ?
+            Promise.resolve({ state: 'default' }) :
+            originalQuery(parameters)
+    );
+}
 """
 
 

@@ -1,0 +1,6 @@
+# Set default behavior, in case users don't have core.autocrlf set.
+* text=auto
+
+# Ensure shell scripts and hooks always have LF line endings
+.githooks/* text eol=lf
+*.sh text eol=lf

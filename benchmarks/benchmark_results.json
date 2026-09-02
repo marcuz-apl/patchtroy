@@ -1,0 +1,26 @@
+{
+  "import_latency_ms": 1045.16,
+  "memory_rss_mb": 60.19,
+  "extraction": {
+    "iterations": 200,
+    "duration_s": 3.0887,
+    "ops_per_sec": 64.8,
+    "raw_bytes": 12640,
+    "clean_bytes": 409,
+    "noise_reduction_pct": 96.8
+  },
+  "chunking": {
+    "doc_tokens": 3500,
+    "chunks_per_doc": 8,
+    "iterations": 50,
+    "duration_s": 1.353,
+    "tokens_per_sec": 129339.0
+  },
+  "stealth": {
+    "masks_navigator_webdriver": true,
+    "emulates_chrome_runtime": true,
+    "mocks_plugins_and_mimetypes": true,
+    "overrides_notification_permission": true
+  },
+  "timestamp_utc": "2026-09-02T15:55:47Z"
+}

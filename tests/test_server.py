@@ -17,7 +17,7 @@ async def test_health_check_endpoint():
         assert resp.status_code == 200
         data = resp.json()
         assert data["status"] == "healthy"
-        assert data["version"] == "0.3.0"
+        assert data["version"] == "0.4.0"
         assert data["engine"] == "patchright"
 
 

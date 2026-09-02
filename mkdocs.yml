@@ -1,0 +1,62 @@
+site_name: Patchtroy
+site_description: Undetected stealth web scraper & clean Markdown extractor for LLMs.
+site_url: https://marcuz-apl.github.io/patchtroy
+repo_url: https://github.com/marcuz-apl/patchtroy
+repo_name: marcuz-apl/patchtroy
+edit_uri: edit/main/docs/
+
+theme:
+  name: material
+  palette:
+    - scheme: slate
+      primary: teal
+      accent: cyan
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+    - scheme: default
+      primary: teal
+      accent: cyan
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - navigation.expand
+    - content.code.copy
+    - content.tabs.link
+    - search.suggest
+    - search.highlight
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.tabbed:
+      alternate_style: true
+  - tables
+  - attr_list
+  - md_in_html
+
+nav:
+  - Overview: index.md
+  - Getting Started: getting-started.md
+  - Features:
+      - Stealth Architecture: stealth-architecture.md
+      - Browser Context Pool: context-pool.md
+      - Screenshots & PDFs: media-capture.md
+      - Proxy Rotation Manager: proxy-rotation.md
+      - LLM Chunking & Tokenizer: llm-chunking.md
+      - REST API Microservice: rest-api.md
+  - Benchmarks: benchmarks.md
+  - Release Notes:
+      - Phase 2 Plan: 01_phase2_implementation_plan.md
+      - Phase 2 Walkthrough: 02_phase2_walkthrough.md
+      - Phase 3 Plan: 03_phase3_implementation_plan.md
+      - Phase 3 Walkthrough: 04_phase3_walkthrough.md
+      - Phase 4 Plan: 05_phase4_implementation_plan.md

@@ -90,7 +90,7 @@ def create_app() -> FastAPI:
     app = FastAPI(
         title="Patchtroy REST Microservice",
         description="Undetected stealth web scraper & clean Markdown extractor for LLMs.",
-        version="0.3.0",
+        version="0.4.0",
         lifespan=lifespan,
     )
 
@@ -99,7 +99,7 @@ def create_app() -> FastAPI:
         """Microservice health and status check."""
         return {
             "status": "healthy",
-            "version": "0.3.0",
+            "version": "0.4.0",
             "engine": "patchright",
             "active": crawler_instance is not None and crawler_instance._pool.is_running,
         }

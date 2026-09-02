@@ -146,13 +146,18 @@ Patchtroy occupies the unoccupied **"Lightweight Stealth Sweet Spot"**:
 - [x] Concurrent batch crawling (`scrape_many` / `crawl_many`).
 - [x] Full test suite (24 tests passing).
 
-### Phase 3 (v0.3.0 — Current)
+### Phase 3 (v0.3.0)
 - [x] Lightweight Docker container (`marcuszou/patchtroy:latest`).
 - [x] REST API microservice (FastAPI endpoint `/scrape` and `/scrape/batch`).
 - [x] Token counter & LLM chunking utility (`result.chunk(max_tokens=2048)`).
 - [x] Full test suite (32 tests passing).
 
-### Phase 4 (v1.0.0)
-- [ ] PyPI public release (`pip install patchtroy`).
-- [ ] Comprehensive benchmark publication vs Crawl4AI and Firecrawl.
-- [ ] Official documentation portal.
+### Phase 4 (v0.4.0 — Current)
+- [x] PyPI public release workflows & multi-OS matrix CI (`.github/workflows/`).
+- [x] Comprehensive benchmark publication vs Crawl4AI and Firecrawl (`benchmarks/BENCHMARKS.md`).
+- [x] Official documentation portal (Material for MkDocs).
+- [x] Full test suite (32 tests passing, 100% ruff clean, wheel package verified).
+
+### Phase 5 (v1.0.0)
+- [ ] Enterprise production stabilization and API freeze after community adoption.
+- [ ] Distributed cluster crawling integration.
