@@ -1,0 +1,20 @@
+#!/bin/sh
+# pre-commit — alfazen-versioning: compute exactly one successor identifier,
+# write it to the root VERSION file, and stage only VERSION.
+
+HOOKDIR=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+. "$HOOKDIR/versionlib.sh"
+
+old=$(read_version)
+validate_identifier "$old"
+new=$(next_identifier "$old" "$(utc_yymmdd)") || exit 1
+[ -n "$new" ] || die "failed to compute next identifier"
+
+printf '%s\n' "$new" > "$VERSION_FILE"
+git add -- "$VERSION_FILE"
+
+echo "alfazen-versioning: $old -> $new"
+if git rev-parse --verify HEAD >/dev/null 2>&1; then
+  echo "alfazen-versioning: if this commit is aborted, roll back with:"
+  echo "  git restore --source=HEAD --staged --worktree -- VERSION"
+fi
