@@ -19,7 +19,7 @@ Existing open-source solutions force developers to choose between:
 
 ## 2. Feature & Architecture Matrix
 
-| Dimension | **Patchtroy** (v0.4.6) | **Crawl4AI** (v0.9.3) | **Firecrawl** (Self-Hosted) |
+| Dimension | **Patchtroy** (v0.5.0) | **Crawl4AI** (v0.9.3) | **Firecrawl** (Self-Hosted) |
 | :--- | :---: | :---: | :---: |
 | **Stealth Engine** | **✅ Native Patchright (C++ CDP masked)** | ❌ Standard Playwright (CDP leaked) | ⚠️ Standard Playwright / Puppeteer |
 | **Dynamic Challenge Resilience** | **✅ Native driver protection** | ❌ Frequently flagged on automated checks | ❌ Blocked unless using paid SaaS proxy |

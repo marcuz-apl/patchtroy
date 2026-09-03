@@ -8,7 +8,7 @@ FROM python:3.11-slim
 LABEL maintainer="Marcus Zou <marcus.zou@icloud.com>"
 LABEL org.opencontainers.image.title="Patchtroy"
 LABEL org.opencontainers.image.description="Undetected stealth web scraper & markdown extractor microservice"
-LABEL org.opencontainers.image.version="0.4.6"
+LABEL org.opencontainers.image.version="0.5.0"
 
 # Python and environment settings
 ENV PYTHONUNBUFFERED=1 \

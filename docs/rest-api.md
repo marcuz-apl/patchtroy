@@ -53,7 +53,7 @@ curl http://localhost:4013/health
 ```json
 {
   "status": "healthy",
-  "version": "0.4.6",
+  "version": "0.5.0",
   "engine": "patchright",
   "active": true
 }
