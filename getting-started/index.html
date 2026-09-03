@@ -1290,17 +1290,23 @@
 <a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="c1"># Save complete JSON payload (markdown, metadata, structured items, links)</span>
 <a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>patchtroy<span class="w"> </span>https://example.com<span class="w"> </span>-f<span class="w"> </span>json<span class="w"> </span>-o<span class="w"> </span>output.json
 <a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a>
-<a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a><span class="c1"># Capture screenshot and PDF</span>
-<a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a>patchtroy<span class="w"> </span>https://example.com<span class="w"> </span>--screenshot<span class="w"> </span>page.png<span class="w"> </span>--pdf<span class="w"> </span>document.pdf
+<a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a><span class="c1"># Export to standard CSV (auto-detected from file extension)</span>
+<a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a>patchtroy<span class="w"> </span>https://example.com<span class="w"> </span>-o<span class="w"> </span>output.csv
 <a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a>
-<a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a><span class="c1"># Full-page screenshot</span>
-<a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a>patchtroy<span class="w"> </span>https://example.com<span class="w"> </span>--screenshot<span class="w"> </span>full.png<span class="w"> </span>--full-page
+<a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a><span class="c1"># Batch crawl multiple URLs directly to CSV for data pipelines</span>
+<a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a>patchtroy<span class="w"> </span>https://site1.com<span class="w"> </span>https://site2.com<span class="w"> </span>-f<span class="w"> </span>csv<span class="w"> </span>-o<span class="w"> </span>dataset.csv
 <a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a>
-<a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a><span class="c1"># Batch scraping multiple URLs with proxy rotation and concurrency</span>
-<a id="__codelineno-9-17" name="__codelineno-9-17" href="#__codelineno-9-17"></a>patchtroy<span class="w"> </span>https://site1.com<span class="w"> </span>https://site2.com<span class="w"> </span>--proxy-file<span class="w"> </span>proxies.txt<span class="w"> </span>-c<span class="w"> </span><span class="m">5</span><span class="w"> </span>-o<span class="w"> </span>batch.md
+<a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a><span class="c1"># Capture screenshot and PDF</span>
+<a id="__codelineno-9-17" name="__codelineno-9-17" href="#__codelineno-9-17"></a>patchtroy<span class="w"> </span>https://example.com<span class="w"> </span>--screenshot<span class="w"> </span>page.png<span class="w"> </span>--pdf<span class="w"> </span>document.pdf
 <a id="__codelineno-9-18" name="__codelineno-9-18" href="#__codelineno-9-18"></a>
-<a id="__codelineno-9-19" name="__codelineno-9-19" href="#__codelineno-9-19"></a><span class="c1"># Launch REST API microservice on port 4013</span>
-<a id="__codelineno-9-20" name="__codelineno-9-20" href="#__codelineno-9-20"></a>patchtroy<span class="w"> </span>serve<span class="w"> </span>--host<span class="w"> </span><span class="m">0</span>.0.0.0<span class="w"> </span>--port<span class="w"> </span><span class="m">4013</span>
+<a id="__codelineno-9-19" name="__codelineno-9-19" href="#__codelineno-9-19"></a><span class="c1"># Full-page screenshot</span>
+<a id="__codelineno-9-20" name="__codelineno-9-20" href="#__codelineno-9-20"></a>patchtroy<span class="w"> </span>https://example.com<span class="w"> </span>--screenshot<span class="w"> </span>full.png<span class="w"> </span>--full-page
+<a id="__codelineno-9-21" name="__codelineno-9-21" href="#__codelineno-9-21"></a>
+<a id="__codelineno-9-22" name="__codelineno-9-22" href="#__codelineno-9-22"></a><span class="c1"># Batch scraping multiple URLs with proxy rotation and concurrency</span>
+<a id="__codelineno-9-23" name="__codelineno-9-23" href="#__codelineno-9-23"></a>patchtroy<span class="w"> </span>https://site1.com<span class="w"> </span>https://site2.com<span class="w"> </span>--proxy-file<span class="w"> </span>proxies.txt<span class="w"> </span>-c<span class="w"> </span><span class="m">5</span><span class="w"> </span>-o<span class="w"> </span>batch.md
+<a id="__codelineno-9-24" name="__codelineno-9-24" href="#__codelineno-9-24"></a>
+<a id="__codelineno-9-25" name="__codelineno-9-25" href="#__codelineno-9-25"></a><span class="c1"># Launch REST API microservice on port 4013</span>
+<a id="__codelineno-9-26" name="__codelineno-9-26" href="#__codelineno-9-26"></a>patchtroy<span class="w"> </span>serve<span class="w"> </span>--host<span class="w"> </span><span class="m">0</span>.0.0.0<span class="w"> </span>--port<span class="w"> </span><span class="m">4013</span>
 </code></pre></div>
 <hr />
 <h2 id="rest-api-docker-microservice">📡 REST API &amp; Docker Microservice</h2>
