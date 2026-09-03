@@ -152,7 +152,7 @@ Patchtroy occupies the unoccupied **"Lightweight Stealth Sweet Spot"**:
 - [x] Token counter & LLM chunking utility (`result.chunk(max_tokens=2048)`).
 - [x] Full test suite (32 tests passing).
 
-### Phase 4 (v0.5.1 — Current)
+### Phase 4 (v0.5.2 — Current)
 - [x] PyPI public release workflows & multi-OS matrix CI (`.github/workflows/`).
 - [x] Comprehensive benchmark publication vs Crawl4AI and Firecrawl (`benchmarks/BENCHMARKS.md`).
 - [x] Official documentation portal (Material for MkDocs).

@@ -11,7 +11,7 @@ from patchtroy.crawler import Patchtroy
 from patchtroy.models import PatchtroyConfig
 from patchtroy.utils import silence_windows_proactor_bug
 
-__version__ = "0.5.1"
+__version__ = "0.5.2"
 
 
 def main(argv: list[str] | None = None) -> int:
