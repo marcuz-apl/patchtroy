@@ -11,7 +11,7 @@ from patchtroy.crawler import Patchtroy
 from patchtroy.models import PatchtroyConfig
 from patchtroy.utils import silence_windows_proactor_bug
 
-__version__ = "0.5.0"
+__version__ = "0.5.1"
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -42,9 +42,9 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument(
         "-f",
         "--format",
-        choices=["markdown", "json", "html"],
+        choices=["markdown", "json", "html", "csv"],
         default="markdown",
-        help="Output format (default: markdown)",
+        help="Output format (default: markdown, or inferred from -o extension)",
     )
     parser.add_argument(
         "--wait-for",
@@ -101,6 +101,16 @@ def main(argv: list[str] | None = None) -> int:
 
     args = parser.parse_args(argv)
 
+    # Auto-detect format from output file extension if left at default markdown
+    if args.output and args.format == "markdown":
+        ext = Path(args.output).suffix.lower()
+        if ext == ".csv":
+            args.format = "csv"
+        elif ext == ".json":
+            args.format = "json"
+        elif ext in (".html", ".htm"):
+            args.format = "html"
+
     # Launch REST microservice if requested
     if args.serve or (args.urls and args.urls[0] == "serve"):
         from patchtroy.server import run_server
@@ -149,6 +159,9 @@ def main(argv: list[str] | None = None) -> int:
                 content = json.dumps(dump_data, indent=2, ensure_ascii=False)
             elif args.format == "html":
                 content = result.html
+            elif args.format == "csv":
+                from patchtroy.utils import results_to_csv
+                content = results_to_csv(result)
             else:
                 header = f"# {result.title}\n\nSource: {result.url}\n\n" if result.title else ""
                 content = header + result.markdown
@@ -176,6 +189,11 @@ def main(argv: list[str] | None = None) -> int:
                 for r in results
             ]
             content = json.dumps(dump_data, indent=2, ensure_ascii=False)
+        elif args.format == "csv":
+            from patchtroy.utils import results_to_csv
+            content = results_to_csv(results)
+        elif args.format == "html":
+            content = "\n\n<hr/>\n\n".join(r.html for r in results if r.html)
         else:
             combined = []
             for r in results:

@@ -186,6 +186,12 @@ patchtroy https://example.com -o output.md
 # Save complete JSON payload (markdown, metadata, structured items, links)
 patchtroy https://example.com -f json -o output.json
 
+# Export to standard CSV (auto-detected from file extension)
+patchtroy https://example.com -o output.csv
+
+# Batch crawl multiple URLs directly to CSV for data pipelines
+patchtroy https://site1.com https://site2.com -f csv -o dataset.csv
+
 # Capture screenshot and PDF
 patchtroy https://example.com --screenshot page.png --pdf document.pdf
 

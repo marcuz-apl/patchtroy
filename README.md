@@ -72,8 +72,10 @@ print(result.markdown[:300])
 # Scrape clean Markdown directly to stdout
 patchtroy https://news.ycombinator.com
 
-# Save to output file
+# Save to Markdown, CSV, or JSON (auto-detected from file extension)
 patchtroy https://example.com -o output.md
+patchtroy https://example.com -o output.csv
+patchtroy https://example.com -f json -o output.json
 ```
 
 ---
@@ -105,4 +107,4 @@ Full documentation, API references, architecture guides, and benchmarks are avai
 
 ## 📄 License
 
-Patchtroy is open-source software created by **Marcus Zou** and maintained by **Alfazen Inc.**, released under the **[Apache 2.0 License](LICENSE)**.
+Patchtroy is open-source software created by [@marcuz-apl](https://github.com/marcuz-apl) and maintained by **Alfazen Inc.**, released under the **[Apache 2.0 License](LICENSE)**.

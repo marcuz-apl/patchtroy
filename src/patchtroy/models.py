@@ -152,3 +152,9 @@ class ScrapeResult(BaseModel):
             overlap_tokens=overlap_tokens,
             metadata={"url": self.url, "title": self.title},
         )
+
+    def to_csv(self) -> str:
+        """Export this ScrapeResult as an RFC 4180 CSV string."""
+        from patchtroy.utils import results_to_csv
+        return results_to_csv(self)
+

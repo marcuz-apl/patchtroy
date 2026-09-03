@@ -4,16 +4,16 @@ build-backend = "hatchling.build"
 
 [project]
 name = "patchtroy"
-version = "0.5.0"
-description = "Undetected stealth web scraper & markdown extractor for LLMs, pairing Patchright with Trafilatura."
+version = "0.5.1"
+description = "Stealth web scraper & markdown extractor for LLMs, pairing Patchright with Trafilatura."
 readme = "README.md"
 license = "Apache-2.0"
 requires-python = ">=3.10"
 authors = [
-    { name = "Marcus Zou", email = "marcus.zou@icloud.com" }
+    { name = "marcuz-apl", email = "support@alfazen.org" }
 ]
 maintainers = [
-    { name = "Alfazen Inc.", email = "support@alfazen.io" }
+    { name = "Alfazen Inc.", email = "support@alfazen.org" }
 ]
 keywords = [
     "crawler",

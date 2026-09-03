@@ -103,3 +103,74 @@ def silence_subprocess_transport_bug() -> None:
 
 # Backwards-compatible alias
 silence_windows_proactor_bug = silence_subprocess_transport_bug
+
+
+def results_to_csv(results: Any) -> str:
+    """Convert one or multiple ScrapeResult instances into standard RFC 4180 CSV text.
+
+    Args:
+        results: A single ScrapeResult or an iterable/list of ScrapeResult instances.
+
+    Returns:
+        A valid CSV string containing header and data rows.
+    """
+    import csv
+    import io
+
+    if not isinstance(results, (list, tuple)):
+        items = [results]
+    else:
+        items = list(results)
+
+    fieldnames = [
+        "url",
+        "success",
+        "status_code",
+        "title",
+        "author",
+        "date",
+        "token_count",
+        "elapsed_s",
+        "engine_used",
+        "markdown",
+        "error",
+    ]
+
+    output = io.StringIO()
+    writer = csv.DictWriter(
+        output,
+        fieldnames=fieldnames,
+        quoting=csv.QUOTE_MINIMAL,
+        lineterminator="\n",
+    )
+    writer.writeheader()
+
+    for r in items:
+        meta = getattr(r, "metadata", {}) or {}
+        author = meta.get("author") or meta.get("byline") or ""
+        date = meta.get("date") or meta.get("published_time") or ""
+        token_count = meta.get("token_count", 0)
+        markdown_str = getattr(r, "markdown", "") or ""
+        if not token_count and markdown_str:
+            try:
+                from patchtroy.chunker import count_tokens
+                token_count = count_tokens(markdown_str)
+            except Exception:
+                token_count = len(markdown_str) // 4
+
+        writer.writerow({
+            "url": getattr(r, "url", ""),
+            "success": getattr(r, "success", True),
+            "status_code": getattr(r, "status_code", 200),
+            "title": getattr(r, "title", "") or "",
+            "author": author,
+            "date": date,
+            "token_count": token_count,
+            "elapsed_s": round(float(getattr(r, "elapsed_s", 0.0) or 0.0), 3),
+            "engine_used": getattr(r, "engine_used", "patchright"),
+            "markdown": markdown_str,
+            "error": getattr(r, "error", "") or "",
+        })
+
+    return output.getvalue()
+
