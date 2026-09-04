@@ -70,7 +70,7 @@ def silence_subprocess_transport_bug() -> None:
         from asyncio.base_subprocess import BaseSubprocessTransport
 
         orig_sub_del = getattr(BaseSubprocessTransport, "__del__", None)
-        if orig_sub_del and not getattr(BaseSubprocessTransport, "_patchtroy_safe", False):
+        if orig_sub_del and not getattr(BaseSubprocessTransport, "_playtrafi_safe", False):
 
             def _safe_sub_del(self: Any, *args: Any, **kwargs: Any) -> None:
                 try:
@@ -79,7 +79,7 @@ def silence_subprocess_transport_bug() -> None:
                     pass
 
             BaseSubprocessTransport.__del__ = _safe_sub_del  # type: ignore[method-assign]
-            BaseSubprocessTransport._patchtroy_safe = True  # type: ignore[attr-defined]
+            BaseSubprocessTransport._playtrafi_safe = True  # type: ignore[attr-defined]
     except Exception:
         pass
 
@@ -87,7 +87,7 @@ def silence_subprocess_transport_bug() -> None:
         from asyncio.proactor_events import _ProactorBasePipeTransport
 
         orig_pipe_del = getattr(_ProactorBasePipeTransport, "__del__", None)
-        if orig_pipe_del and not getattr(_ProactorBasePipeTransport, "_patchtroy_safe", False):
+        if orig_pipe_del and not getattr(_ProactorBasePipeTransport, "_playtrafi_safe", False):
 
             def _safe_pipe_del(self: Any, *args: Any, **kwargs: Any) -> None:
                 try:
@@ -96,7 +96,7 @@ def silence_subprocess_transport_bug() -> None:
                     pass
 
             _ProactorBasePipeTransport.__del__ = _safe_pipe_del  # type: ignore[method-assign]
-            _ProactorBasePipeTransport._patchtroy_safe = True  # type: ignore[attr-defined]
+            _ProactorBasePipeTransport._playtrafi_safe = True  # type: ignore[attr-defined]
     except Exception:
         pass
 
@@ -153,7 +153,7 @@ def results_to_csv(results: Any) -> str:
         markdown_str = getattr(r, "markdown", "") or ""
         if not token_count and markdown_str:
             try:
-                from patchtroy.chunker import count_tokens
+                from playtrafi.chunker import count_tokens
                 token_count = count_tokens(markdown_str)
             except Exception:
                 token_count = len(markdown_str) // 4

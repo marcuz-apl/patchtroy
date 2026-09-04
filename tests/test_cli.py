@@ -1,9 +1,9 @@
-"""Tests for Patchtroy CLI."""
+"""Tests for Playtrafi CLI."""
 
 from unittest.mock import MagicMock, patch
 
-from patchtroy.cli import main
-from patchtroy.models import ScrapeResult
+from playtrafi.cli import main
+from playtrafi.models import ScrapeResult
 
 
 def test_cli_help(capsys):
@@ -18,7 +18,7 @@ def test_cli_single_url():
         markdown="This is test markdown.",
         success=True,
     )
-    with patch("patchtroy.cli.Patchtroy") as mock_cls:
+    with patch("playtrafi.cli.Playtrafi") as mock_cls:
         mock_instance = MagicMock()
         mock_instance.scrape.return_value = fake_result
         mock_cls.return_value = mock_instance
@@ -41,7 +41,7 @@ def test_cli_batch_urls():
         markdown="Markdown content",
         success=True,
     )
-    with patch("patchtroy.cli.Patchtroy") as mock_cls:
+    with patch("playtrafi.cli.Playtrafi") as mock_cls:
         mock_instance = MagicMock()
         mock_instance.scrape_many.return_value = [fake_result, fake_result]
         mock_cls.return_value = mock_instance
@@ -54,7 +54,7 @@ def test_cli_batch_urls():
 
 
 def test_cli_serve():
-    with patch("patchtroy.server.run_server") as mock_run:
+    with patch("playtrafi.server.run_server") as mock_run:
         ret = main(["serve", "--port", "9000", "--host", "127.0.0.1"])
         assert ret == 0
         mock_run.assert_called_once_with(host="127.0.0.1", port=9000)
@@ -68,7 +68,7 @@ def test_cli_single_url_csv(tmp_path):
         markdown="This is test markdown.",
         success=True,
     )
-    with patch("patchtroy.cli.Patchtroy") as mock_cls:
+    with patch("playtrafi.cli.Playtrafi") as mock_cls:
         mock_instance = MagicMock()
         mock_instance.scrape.return_value = fake_result
         mock_cls.return_value = mock_instance
@@ -89,7 +89,7 @@ def test_cli_csv_auto_detect(tmp_path):
         markdown="Auto CSV Content",
         success=True,
     )
-    with patch("patchtroy.cli.Patchtroy") as mock_cls:
+    with patch("playtrafi.cli.Playtrafi") as mock_cls:
         mock_instance = MagicMock()
         mock_instance.scrape.return_value = fake_result
         mock_cls.return_value = mock_instance
@@ -106,7 +106,7 @@ def test_cli_batch_csv(tmp_path):
     r1 = ScrapeResult(url="https://a.com", title="A", markdown="Doc A", success=True)
     r2 = ScrapeResult(url="https://b.com", title="B", markdown="Doc B", success=False, error="Timeout")
 
-    with patch("patchtroy.cli.Patchtroy") as mock_cls:
+    with patch("playtrafi.cli.Playtrafi") as mock_cls:
         mock_instance = MagicMock()
         mock_instance.scrape_many.return_value = [r1, r2]
         mock_cls.return_value = mock_instance

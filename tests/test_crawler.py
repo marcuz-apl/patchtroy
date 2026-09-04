@@ -2,28 +2,38 @@ from unittest.mock import AsyncMock, patch
 
 import pytest
 
-from patchtroy.crawler import AsyncPatchtroy, Patchtroy
-from patchtroy.models import PatchtroyConfig, ScrapeResult
+from playtrafi.crawler import (
+    AsyncPatchtroy,
+    AsyncPlaytrafi,
+    Patchtroy,
+    Playtrafi,
+)
+from playtrafi.models import PatchtroyConfig, PlaytrafiConfig, ScrapeResult
 
 
 @pytest.mark.asyncio
 async def test_invalid_url_handling():
-    crawler = AsyncPatchtroy()
+    crawler = AsyncPlaytrafi()
     res = await crawler.scrape("not-a-valid-url")
     assert res.success is False
     assert "Invalid HTTP/HTTPS URL" in res.error
+    # Test backwards compatibility alias
+    assert AsyncPatchtroy is AsyncPlaytrafi
+    assert PatchtroyConfig is PlaytrafiConfig
 
 
 def test_sync_invalid_url():
-    crawler = Patchtroy()
+    crawler = Playtrafi()
     res = crawler.scrape("ftp://invalid-scheme.com")
     assert res.success is False
     assert "Invalid HTTP/HTTPS URL" in res.error
+    # Test backwards compatibility alias
+    assert Patchtroy is Playtrafi
 
 
 @pytest.mark.asyncio
 async def test_async_scrape_many():
-    crawler = AsyncPatchtroy(PatchtroyConfig(max_concurrency=3))
+    crawler = AsyncPlaytrafi(PlaytrafiConfig(max_concurrency=3))
     mock_res = ScrapeResult(url="https://example.com", title="Example", success=True)
 
     with patch.object(crawler, "scrape", new_callable=AsyncMock, return_value=mock_res) as mock_scrape:
@@ -35,7 +45,7 @@ async def test_async_scrape_many():
 
 
 def test_sync_scrape_many():
-    crawler = Patchtroy(PatchtroyConfig(max_concurrency=2))
+    crawler = Playtrafi(PlaytrafiConfig(max_concurrency=2))
     urls = ["ftp://bad-url-1", "ftp://bad-url-2"]
     results = crawler.scrape_many(urls)
     assert len(results) == 2
@@ -44,13 +54,13 @@ def test_sync_scrape_many():
 
 
 def test_sync_context_manager():
-    with Patchtroy() as crawler:
+    with Playtrafi() as crawler:
         res = crawler.scrape("ftp://bad-url")
         assert res.success is False
 
 
 def test_silence_windows_proactor_bug():
-    from patchtroy.utils import silence_windows_proactor_bug
+    from playtrafi.utils import silence_windows_proactor_bug
 
     # Should execute cleanly across all platforms
     silence_windows_proactor_bug()

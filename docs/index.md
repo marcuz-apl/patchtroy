@@ -1,4 +1,4 @@
-# 🛡️ Patchtroy
+# 🛡️ Playtrafi
 
 **The undetected stealth web scraper & clean Markdown extractor for LLMs, RAG pipelines, and AI agents.**
 
@@ -9,15 +9,15 @@
 
 ---
 
-## ⚡ What is Patchtroy?
+## ⚡ What is Playtrafi?
 
-**Patchtroy** is a lightweight, high-performance web crawling and content extraction engine designed specifically for LLMs and AI pipelines.
+**Playtrafi** is a lightweight, high-performance web crawling and content extraction engine designed specifically for LLMs and AI pipelines.
 
 It bridges the gap between low-level drivers and high-level scrapers by coupling **Patchright** (the C++ patched Chromium engine that eliminates automated telemetry leakages) with **Trafilatura** (the gold standard for algorithmic boilerplate removal and pristine Markdown conversion).
 
-### 🎯 Why Patchtroy?
+### 🎯 Why Playtrafi?
 
-| Feature | Crawl4AI | Firecrawl (Self-hosted) | **Patchtroy** |
+| Feature | Crawl4AI | Firecrawl (Self-hosted) | **Playtrafi** |
 | :--- | :---: | :---: | :---: |
 | **Stealth Engine** | ❌ Standard Playwright (CDP leaked) | ❌ Blocked without paid SaaS proxy | **✅ Native Patchright Stealth** |
 | **Boilerplate Stripping** | ⚠️ Heuristic regex / CSS | ✅ Full DOM clean | **✅ Trafilatura Gold Standard** |
@@ -32,10 +32,10 @@ It bridges the gap between low-level drivers and high-level scrapers by coupling
 ## 🚀 Quick Example
 
 ```python
-from patchtroy import Patchtroy
+from playtrafi import Playtrafi
 
 # 1-line instant stealth crawl to pristine Markdown
-result = Patchtroy.crawl("https://news.ycombinator.com")
+result = Playtrafi.crawl("https://news.ycombinator.com")
 
 print("Title:", result.title)
 print(result.markdown[:300])

@@ -1,12 +1,12 @@
-"""Unit tests for media capture (Screenshots & PDFs) in patchtroy."""
+"""Unit tests for media capture (Screenshots & PDFs) in playtrafi."""
 
 from pathlib import Path
 from unittest.mock import AsyncMock, MagicMock
 
 import pytest
 
-from patchtroy.crawler import AsyncPatchtroy
-from patchtroy.models import PatchtroyConfig
+from playtrafi.crawler import AsyncPlaytrafi
+from playtrafi.models import PlaytrafiConfig
 
 
 @pytest.mark.asyncio
@@ -14,7 +14,7 @@ async def test_scrape_with_media_capture(tmp_path: Path):
     shot_path = tmp_path / "page.png"
     pdf_path = tmp_path / "page.pdf"
 
-    config = PatchtroyConfig(
+    config = PlaytrafiConfig(
         screenshot=True,
         full_page_screenshot=True,
         screenshot_path=str(shot_path),
@@ -22,7 +22,7 @@ async def test_scrape_with_media_capture(tmp_path: Path):
         pdf_path=str(pdf_path),
     )
 
-    crawler = AsyncPatchtroy(config)
+    crawler = AsyncPlaytrafi(config)
 
     # Mock page and context
     mock_page = MagicMock()

@@ -1,17 +1,17 @@
-"""Unit tests for BrowserContextPool in patchtroy."""
+"""Unit tests for BrowserContextPool in playtrafi."""
 
 from unittest.mock import AsyncMock, MagicMock
 
 import pytest
 
-from patchtroy.models import PatchtroyConfig
-from patchtroy.pool import BrowserContextPool
-from patchtroy.proxy import ProxyManager
+from playtrafi.models import PlaytrafiConfig
+from playtrafi.pool import BrowserContextPool
+from playtrafi.proxy import ProxyManager
 
 
 @pytest.mark.asyncio
 async def test_pool_context_acquisition():
-    config = PatchtroyConfig(max_concurrency=2)
+    config = PlaytrafiConfig(max_concurrency=2)
     pool = BrowserContextPool(config)
 
     # Mock browser and playwright objects
@@ -37,7 +37,7 @@ async def test_pool_context_acquisition():
 
 @pytest.mark.asyncio
 async def test_pool_with_proxy_manager():
-    config = PatchtroyConfig(max_concurrency=2)
+    config = PlaytrafiConfig(max_concurrency=2)
     pm = ProxyManager(proxies=["http://proxy1:8080", "http://proxy2:8080"])
     pool = BrowserContextPool(config, proxy_manager=pm)
 

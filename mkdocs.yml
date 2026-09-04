@@ -1,8 +1,8 @@
-site_name: Patchtroy
+site_name: Playtrafi
 site_description: Undetected stealth web scraper & clean Markdown extractor for LLMs.
-site_url: https://marcuz-apl.github.io/patchtroy
-repo_url: https://github.com/marcuz-apl/patchtroy
-repo_name: marcuz-apl/patchtroy
+site_url: https://marcuz-apl.github.io/playtrafi
+repo_url: https://github.com/marcuz-apl/playtrafi
+repo_name: marcuz-apl/playtrafi
 edit_uri: edit/main/docs/
 
 theme:
@@ -54,3 +54,4 @@ nav:
       - LLM Chunking & Tokenizer: llm-chunking.md
       - REST API Microservice: rest-api.md
   - Benchmarks: benchmarks.md
+  - Rebranding Guide: rebranding-guide.md

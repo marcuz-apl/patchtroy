@@ -1,4 +1,4 @@
-"""Command-line interface for Patchtroy."""
+"""Command-line interface for Playtrafi."""
 
 from __future__ import annotations
 
@@ -7,16 +7,16 @@ import json
 import sys
 from pathlib import Path
 
-from patchtroy.crawler import Patchtroy
-from patchtroy.models import PatchtroyConfig
-from patchtroy.utils import silence_windows_proactor_bug
+from playtrafi.crawler import Playtrafi
+from playtrafi.models import PlaytrafiConfig
+from playtrafi.utils import silence_windows_proactor_bug
 
 __version__ = "0.5.2"
 
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
-        prog="patchtroy",
+        prog="playtrafi",
         description="Undetected stealth web scraper & markdown extractor for LLMs.",
     )
     parser.add_argument("urls", nargs="*", help="Target URL(s) to scrape or 'serve' command")
@@ -59,34 +59,38 @@ def main(argv: list[str] | None = None) -> int:
         "--timeout",
         type=float,
         default=25.0,
-        help="Browser navigation timeout in seconds (default: 25.0)",
+        help="Timeout in seconds per page scrape (default: 25.0)",
     )
     parser.add_argument(
-        "--screenshot",
-        help="Capture and save screenshot to specified file path (e.g. page.png)",
-    )
-    parser.add_argument(
-        "--full-page",
-        action="store_true",
-        help="Capture full-page screenshot instead of viewport only",
-    )
-    parser.add_argument(
-        "--pdf",
-        help="Generate and save PDF to specified file path (headless Chromium only)",
+        "--user-agent",
+        help="Custom User-Agent string",
     )
     parser.add_argument(
         "--proxy",
-        help="Single proxy URL (e.g. http://user:pass@host:port)",
+        help="Single proxy URL (e.g. 'http://user:pass@host:port')",
     )
     parser.add_argument(
         "--proxy-file",
-        help="Path to proxy file for automatic proxy rotation",
+        help="Path to proxy list file for automatic rotation",
     )
     parser.add_argument(
         "--proxy-strategy",
         choices=["round-robin", "random"],
         default="round-robin",
         help="Proxy rotation strategy (default: round-robin)",
+    )
+    parser.add_argument(
+        "--screenshot",
+        help="Save viewport screenshot to specified file path",
+    )
+    parser.add_argument(
+        "--full-page",
+        action="store_true",
+        help="Capture full page length for screenshot",
+    )
+    parser.add_argument(
+        "--pdf",
+        help="Save rendered page as PDF to specified file path (headless only)",
     )
     parser.add_argument(
         "-c",
@@ -96,7 +100,7 @@ def main(argv: list[str] | None = None) -> int:
         help="Maximum concurrent browser contexts for batch scraping (default: 5)",
     )
     parser.add_argument(
-        "-v", "--version", action="version", version=f"patchtroy {__version__}"
+        "-v", "--version", action="version", version=f"playtrafi {__version__}"
     )
 
     args = parser.parse_args(argv)
@@ -113,8 +117,8 @@ def main(argv: list[str] | None = None) -> int:
 
     # Launch REST microservice if requested
     if args.serve or (args.urls and args.urls[0] == "serve"):
-        from patchtroy.server import run_server
-        sys.stderr.write(f"[Patchtroy] Starting REST API on {args.host}:{args.port}...\n")
+        from playtrafi.server import run_server
+        sys.stderr.write(f"[Playtrafi] Starting REST API on {args.host}:{args.port}...\n")
         run_server(host=args.host, port=args.port)
         return 0
 
@@ -125,10 +129,11 @@ def main(argv: list[str] | None = None) -> int:
     # Configure proxy settings
     proxies = args.proxy_file if args.proxy_file else None
 
-    config = PatchtroyConfig(
+    config = PlaytrafiConfig(
         headless=not args.headful,
         browser_timeout_s=args.timeout,
         wait_for=args.wait_for,
+        user_agent=args.user_agent,
         proxy=args.proxy,
         proxies=proxies,
         proxy_strategy=args.proxy_strategy,
@@ -141,7 +146,7 @@ def main(argv: list[str] | None = None) -> int:
     )
 
     silence_windows_proactor_bug()
-    crawler = Patchtroy(config)
+    crawler = Playtrafi(config)
 
     with crawler:
         # Single URL execution
@@ -160,7 +165,7 @@ def main(argv: list[str] | None = None) -> int:
             elif args.format == "html":
                 content = result.html
             elif args.format == "csv":
-                from patchtroy.utils import results_to_csv
+                from playtrafi.utils import results_to_csv
                 content = results_to_csv(result)
             else:
                 header = f"# {result.title}\n\nSource: {result.url}\n\n" if result.title else ""
@@ -168,19 +173,19 @@ def main(argv: list[str] | None = None) -> int:
 
             if args.output:
                 Path(args.output).write_text(content, encoding="utf-8")
-                sys.stderr.write(f"[Patchtroy] Extracted content saved to {args.output} ({len(content)} chars)\n")
+                sys.stderr.write(f"[Playtrafi] Extracted content saved to {args.output} ({len(content)} chars)\n")
             else:
                 print(content)
 
             if args.screenshot and result.screenshot_bytes:
-                sys.stderr.write(f"[Patchtroy] Screenshot saved to {args.screenshot}\n")
+                sys.stderr.write(f"[Playtrafi] Screenshot saved to {args.screenshot}\n")
             if args.pdf and result.pdf_bytes:
-                sys.stderr.write(f"[Patchtroy] PDF saved to {args.pdf}\n")
+                sys.stderr.write(f"[Playtrafi] PDF saved to {args.pdf}\n")
 
             return 0
 
         # Batch URLs execution
-        sys.stderr.write(f"[Patchtroy] Batch scraping {len(args.urls)} URLs (concurrency: {args.concurrency})...\n")
+        sys.stderr.write(f"[Playtrafi] Batch scraping {len(args.urls)} URLs (concurrency: {args.concurrency})...\n")
         results = crawler.scrape_many(args.urls)
 
         if args.format == "json":
@@ -190,7 +195,7 @@ def main(argv: list[str] | None = None) -> int:
             ]
             content = json.dumps(dump_data, indent=2, ensure_ascii=False)
         elif args.format == "csv":
-            from patchtroy.utils import results_to_csv
+            from playtrafi.utils import results_to_csv
             content = results_to_csv(results)
         elif args.format == "html":
             content = "\n\n<hr/>\n\n".join(r.html for r in results if r.html)
@@ -206,7 +211,7 @@ def main(argv: list[str] | None = None) -> int:
 
         if args.output:
             Path(args.output).write_text(content, encoding="utf-8")
-            sys.stderr.write(f"[Patchtroy] Batch results saved to {args.output}\n")
+            sys.stderr.write(f"[Playtrafi] Batch results saved to {args.output}\n")
         else:
             print(content)
 

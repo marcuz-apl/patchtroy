@@ -2,7 +2,7 @@
 
 Feeding large scraped web pages directly into LLM prompts or vector databases requires chunking long texts without cutting sentences or dropping headings.
 
-**Patchtroy** includes a **structure-aware Markdown chunker** designed specifically for RAG architectures.
+**Playtrafi** includes a **structure-aware Markdown chunker** designed specifically for RAG architectures.
 
 ---
 
@@ -18,9 +18,9 @@ Feeding large scraped web pages directly into LLM prompts or vector databases re
 ## 🐍 Python Usage
 
 ```python
-from patchtroy import Patchtroy
+from playtrafi import Playtrafi
 
-result = Patchtroy.crawl("https://en.wikipedia.org/wiki/Artificial_intelligence")
+result = Playtrafi.crawl("https://en.wikipedia.org/wiki/Artificial_intelligence")
 
 # Split result into 1024-token chunks with 100-token overlap
 chunks = result.chunk(max_tokens=1024, overlap_tokens=100)

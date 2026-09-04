@@ -1,4 +1,4 @@
-"""Browser context pool for high-throughput concurrent scraping in Patchtroy."""
+"""Browser context pool for high-throughput concurrent scraping in Playtrafi."""
 
 from __future__ import annotations
 
@@ -8,10 +8,10 @@ from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
 from typing import Any
 
-from patchtroy.models import PatchtroyConfig
-from patchtroy.proxy import ProxyManager
+from playtrafi.models import PlaytrafiConfig
+from playtrafi.proxy import ProxyManager
 
-logger = logging.getLogger("patchtroy.pool")
+logger = logging.getLogger("playtrafi.pool")
 
 
 class BrowserContextPool:
@@ -19,7 +19,7 @@ class BrowserContextPool:
 
     def __init__(
         self,
-        config: PatchtroyConfig,
+        config: PlaytrafiConfig,
         proxy_manager: ProxyManager | None = None,
     ) -> None:
         self.config = config

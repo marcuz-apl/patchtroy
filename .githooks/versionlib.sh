@@ -1,9 +1,9 @@
 # versionlib.sh — shared logic for the alfazen-versioning hooks.
-# Contract: the root VERSION file holds v{m.n.p}-{yymmddc} where yymmddc is a
-# six-digit UTC date plus one lowercase counter character (1-9 then a-z).
+# Contract: the root VERSION file holds v{m.n.p}+{yymmddc} (or legacy -{yymmddc})
+# where yymmddc is a six-digit UTC date plus one lowercase counter character (1-9 then a-z).
 
 VERSION_FILE=VERSION
-IDENT_RE='^v[0-9]+\.[0-9]\.[0-9]-[0-9]{6}[0-9a-z]$'
+IDENT_RE='^v[0-9]+\.[0-9]+\.[0-9]+[+-][0-9]{6}[0-9a-z]$'
 
 die() {
   echo "alfazen-versioning: $*" >&2
@@ -27,9 +27,13 @@ read_version() {
 validate_identifier() {
   id=$1
   printf '%s' "$id" | grep -Eq "$IDENT_RE" ||
-    die "malformed identifier '$id' in $VERSION_FILE (expected v{m.n.p}-{yymmddc})"
+    die "malformed identifier '$id' in $VERSION_FILE (expected v{m.n.p}+{yymmddc})"
 
-  build=${id#*-}
+  case $id in
+    *+*) build=${id#*+} ;;
+    *-*) build=${id#*-} ;;
+  esac
+
   bdate=${build%?}
   yy=${bdate%????}
   mm=${bdate#??}
@@ -61,33 +65,19 @@ validate_identifier() {
 }
 
 # next_identifier OLD TODAY — print the single successor of OLD.
+# In SemVer 2.0.0, the base version (v{m.n.p}) remains constant across commits;
+# only the daily build counter increments.
 next_identifier() {
   old=$1
   today=$2
 
-  ver=${old%-*}
-  build=${old#*-}
+  case $old in
+    *+*) ver=${old%+*}; build=${old#*+} ;;
+    *-*) ver=${old%-*}; build=${old#*-} ;;
+  esac
+
   bdate=${build%?}
   bctr=${build#??????}
-
-  nums=${ver#v}
-  maj=${nums%%.*}
-  rest=${nums#*.}
-  min=${rest%%.*}
-  pat=${rest#*.}
-
-  # bump p with carry rules: p==9 -> n+1/p=0; n==9 -> m+1/n=0
-  if [ "$pat" = 9 ]; then
-    pat=0
-    if [ "$min" = 9 ]; then
-      min=0
-      maj=$((maj + 1))
-    else
-      min=$((min + 1))
-    fi
-  else
-    pat=$((pat + 1))
-  fi
 
   # advance the daily counter; reset to 1 when the UTC date changes
   if [ "$bdate" != "$today" ]; then
@@ -102,5 +92,6 @@ next_identifier() {
     esac
   fi
 
-  printf 'v%s.%s.%s-%s%s\n' "$maj" "$min" "$pat" "$today" "$nctr"
+  # Output standard SemVer 2.0.0 build metadata using '+'
+  printf '%s+%s%s\n' "$ver" "$today" "$nctr"
 }

@@ -1,4 +1,4 @@
-"""Data schemas and models for Patchtroy."""
+"""Data schemas and models for Playtrafi."""
 
 from __future__ import annotations
 
@@ -8,8 +8,8 @@ from typing import Any
 from pydantic import BaseModel, ConfigDict, Field
 
 
-class PatchtroyConfig(BaseModel):
-    """Configuration options for Patchtroy crawler execution."""
+class PlaytrafiConfig(BaseModel):
+    """Configuration options for Playtrafi crawler execution."""
 
     model_config = ConfigDict(extra="ignore", frozen=True)
 
@@ -93,6 +93,10 @@ class PatchtroyConfig(BaseModel):
     )
 
 
+# Backwards compatibility alias
+PatchtroyConfig = PlaytrafiConfig
+
+
 class LinkItem(BaseModel):
     """Hyperlink extracted from rendered page."""
     href: str
@@ -100,7 +104,7 @@ class LinkItem(BaseModel):
 
 
 class ScrapeResult(BaseModel):
-    """Result emitted from a Patchtroy scrape operation."""
+    """Result emitted from a Playtrafi scrape operation."""
 
     url: str
     status_code: int = 200
@@ -145,7 +149,7 @@ class ScrapeResult(BaseModel):
         overlap_tokens: int = 100,
     ) -> list[Any]:
         """Split extracted Markdown content into LLM-ready TextChunk records."""
-        from patchtroy.chunker import chunk_markdown
+        from playtrafi.chunker import chunk_markdown
         return chunk_markdown(
             self.markdown,
             max_tokens=max_tokens,
@@ -155,6 +159,7 @@ class ScrapeResult(BaseModel):
 
     def to_csv(self) -> str:
         """Export this ScrapeResult as an RFC 4180 CSV string."""
-        from patchtroy.utils import results_to_csv
+        from playtrafi.utils import results_to_csv
         return results_to_csv(self)
+
 

@@ -1,6 +1,6 @@
 #!/bin/sh
 # prepare-commit-msg — prefix the first non-comment subject line with the
-# already-bumped connected identifier: "v{VERSION}-{BUILD} <original subject>".
+# already-bumped connected identifier: "v{VERSION}+{BUILD} <original subject>".
 # Strips one existing matching prefix first, so amend/rebase/cherry-pick and
 # repeated execution stay idempotent. Message bodies and trailers are preserved.
 
@@ -16,7 +16,7 @@ validate_identifier "$ver"
 tmp=$(mktemp) || exit 1
 awk -v stamp="$ver" '
   !done && $0 !~ /^#/ {
-    sub(/^v[0-9]+\.[0-9]\.[0-9]-[0-9][0-9][0-9][0-9][0-9][0-9][0-9a-z] /, "")
+    sub(/^v[0-9]+\.[0-9]+\.[0-9]+[+-][0-9][0-9][0-9][0-9][0-9][0-9][0-9a-z] /, "")
     print stamp " " $0
     done = 1
     next

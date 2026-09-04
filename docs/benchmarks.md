@@ -1,13 +1,13 @@
 # 📊 Benchmarks vs Crawl4AI and Firecrawl
 
-A quantitative, reproducible benchmark comparing **Patchtroy (v0.5.2)** against **Crawl4AI (v0.9.3)** and **Firecrawl (Self-Hosted)**.
+A quantitative, reproducible benchmark comparing **Playtrafi (v0.5.2)** against **Crawl4AI (v0.9.3)** and **Firecrawl (Self-Hosted)**.
 
 ---
 
 ## ⚡ Key Takeaways
 
-1. **Lightweight (<15MB)**: Patchtroy uses zero PyTorch/Transformers dependencies, eliminating 1.2GB of ML bloat and reducing RAM footprint by **8.8x**.
-2. **True Stealth Automation**: Only Patchtroy uses a C++ patched Chromium engine (`Patchright`) that hides CDP telemetry natively across complex client-side challenges.
+1. **Lightweight (<15MB)**: Playtrafi uses zero PyTorch/Transformers dependencies, eliminating 1.2GB of ML bloat and reducing RAM footprint by **8.8x**.
+2. **True Stealth Automation**: Only Playtrafi uses a C++ patched Chromium engine (`Patchright`) that hides CDP telemetry natively across complex client-side challenges.
 3. **Pristine Markdown**: Trafilatura delivers **96.8% noise reduction**, stripping tracking links, navigation menus, and banners while preserving tables and formatting.
 4. **Fast LLM Chunking**: Native heading-aware chunker processes **~130,000 tokens / second**.
 
@@ -15,7 +15,7 @@ A quantitative, reproducible benchmark comparing **Patchtroy (v0.5.2)** against 
 
 ## 📈 Performance Summary
 
-| Metric | Patchtroy | Crawl4AI | Advantage |
+| Metric | Playtrafi | Crawl4AI | Advantage |
 | :--- | :---: | :---: | :---: |
 | **Import Latency** | **1.04 s** | 4.85 s | **4.6x faster** |
 | **Initial Memory (RSS)** | **54.5 MB** | 480.0 MB | **8.8x less RAM** |

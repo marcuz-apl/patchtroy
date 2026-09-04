@@ -3,7 +3,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "patchtroy"
+name = "playtrafi"
 version = "0.5.2"
 description = "Stealth web scraper & markdown extractor for LLMs, pairing Patchright with Trafilatura."
 readme = "README.md"
@@ -60,19 +60,20 @@ docs = [
     "mkdocs-material>=9.5.0",
 ]
 all = [
-    "patchtroy[server,dev,docs]",
+    "playtrafi[server,dev,docs]",
 ]
 
 [project.scripts]
-patchtroy = "patchtroy.cli:main"
+playtrafi = "playtrafi.cli:main"
+patchtroy = "playtrafi.cli:main"
 
 [project.urls]
-Homepage = "https://github.com/marcuz-apl/patchtroy"
-Repository = "https://github.com/marcuz-apl/patchtroy"
-Issues = "https://github.com/marcuz-apl/patchtroy/issues"
+Homepage = "https://github.com/marcuz-apl/playtrafi"
+Repository = "https://github.com/marcuz-apl/playtrafi"
+Issues = "https://github.com/marcuz-apl/playtrafi/issues"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/patchtroy"]
+packages = ["src/playtrafi"]
 
 [tool.ruff]
 line-length = 100

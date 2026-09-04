@@ -1,4 +1,4 @@
-"""Proxy rotation manager for Patchtroy."""
+"""Proxy rotation manager for Playtrafi."""
 
 from __future__ import annotations
 
@@ -9,7 +9,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Literal
 
-logger = logging.getLogger("patchtroy.proxy")
+logger = logging.getLogger("playtrafi.proxy")
 
 ProxyStrategy = Literal["round-robin", "random"]
 

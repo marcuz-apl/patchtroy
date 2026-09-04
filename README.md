@@ -1,4 +1,4 @@
-# 🛡️ Patchtroy
+# 🛡️ Playtrafi
 
 **The undetected stealth web scraper & clean Markdown extractor for LLMs and AI pipelines.**
 
@@ -6,19 +6,19 @@
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Engine: Patchright](https://img.shields.io/badge/Stealth%20Engine-Patchright-orange)](https://github.com/kaliiiiiiiiii/patchright)
 [![Extractor: Trafilatura](https://img.shields.io/badge/Extraction-Trafilatura-green)](https://github.com/adbar/trafilatura)
-[![Documentation](https://img.shields.io/badge/docs-Material_for_MkDocs-teal.svg)](https://marcuz-apl.github.io/patchtroy)
+[![Documentation](https://img.shields.io/badge/docs-Material_for_MkDocs-teal.svg)](https://marcuz-apl.github.io/playtrafi)
 
 ---
 
-## ⚡ What is Patchtroy?
+## ⚡ What is Playtrafi?
 
-**Patchtroy** is a lightweight, high-performance web crawling and content extraction engine designed specifically for LLMs, RAG pipelines, and AI agents.
+**Playtrafi** (formerly *Patchtroy*) is a lightweight, high-performance web crawling and content extraction engine designed specifically for LLMs, RAG pipelines, and AI agents.
 
 It bridges the gap between low-level drivers and high-level scrapers by pairing **Patchright** (the C++ patched Chromium engine that eliminates automated telemetry leakages) with **Trafilatura** (the gold standard for algorithmic boilerplate removal and pristine Markdown conversion).
 
-### 🎯 Why Patchtroy vs Crawl4AI & Firecrawl?
+### 🎯 Why Playtrafi vs Crawl4AI & Firecrawl?
 
-| Feature | Crawl4AI | Firecrawl (Self-hosted) | **Patchtroy** |
+| Feature | Crawl4AI | Firecrawl (Self-hosted) | **Playtrafi** |
 | :--- | :---: | :---: | :---: |
 | **Stealth Engine** | ❌ Standard Playwright (telemetry leaked) | ❌ Blocked unless using paid SaaS | **✅ Native Patchright Stealth** |
 | **Boilerplate Stripping** | ⚠️ Heuristic regex | ✅ Full DOM clean | **✅ Trafilatura Gold Standard** |
@@ -32,11 +32,13 @@ It bridges the gap between low-level drivers and high-level scrapers by pairing 
 ## 📦 Installation
 
 ```bash
-pip install patchtroy
+pip install playtrafi
 
 # Install stealth Chromium driver
 patchright install chromium
 ```
+
+> **Note on Backwards Compatibility:** `patchtroy` remains available as an import and CLI alias during the migration deprecation window.
 
 ---
 
@@ -46,23 +48,24 @@ patchright install chromium
 
 ```python
 import asyncio
-from patchtroy import AsyncPatchtroy
+from playtrafi import AsyncPlaytrafi
 
 async def main():
-    async with AsyncPatchtroy() as client:
+    async with AsyncPlaytrafi() as client:
         result = await client.scrape("https://news.ycombinator.com")
         print("Title:", result.title)
         print("Markdown:\n", result.markdown[:300])
 
-asyncio.run(main())
+async def_run():
+    asyncio.run(main())
 ```
 
 ### Python (Sync 1-Liner)
 
 ```python
-from patchtroy import Patchtroy
+from playtrafi import Playtrafi
 
-result = Patchtroy.crawl("https://en.wikipedia.org/wiki/Web_scraping")
+result = Playtrafi.crawl("https://en.wikipedia.org/wiki/Web_scraping")
 print(result.markdown[:300])
 ```
 
@@ -70,12 +73,12 @@ print(result.markdown[:300])
 
 ```bash
 # Scrape clean Markdown directly to stdout
-patchtroy https://news.ycombinator.com
+playtrafi https://news.ycombinator.com
 
 # Save to Markdown, CSV, or JSON (auto-detected from file extension)
-patchtroy https://example.com -o output.md
-patchtroy https://example.com -o output.csv
-patchtroy https://example.com -f json -o output.json
+playtrafi https://example.com -o output.md
+playtrafi https://example.com -o output.csv
+playtrafi https://example.com -f json -o output.json
 ```
 
 ---
@@ -92,19 +95,20 @@ patchtroy https://example.com -f json -o output.json
 
 ## 📖 Documentation
 
-Full documentation, API references, architecture guides, and benchmarks are available at the **[Patchtroy Documentation Portal](https://marcuz-apl.github.io/patchtroy)**:
+Full documentation, API references, architecture guides, and benchmarks are available at the **[Playtrafi Documentation Portal](https://marcuz-apl.github.io/playtrafi)**:
 
-- [Getting Started Guide](https://marcuz-apl.github.io/patchtroy/getting-started/)
-- [Stealth Architecture Deep Dive](https://marcuz-apl.github.io/patchtroy/stealth-architecture/)
-- [Context Pooling & Concurrency](https://marcuz-apl.github.io/patchtroy/context-pool/)
-- [Media Capture (Screenshots & PDFs)](https://marcuz-apl.github.io/patchtroy/media-capture/)
-- [Proxy Rotation & Fault Quarantine](https://marcuz-apl.github.io/patchtroy/proxy-rotation/)
-- [LLM Chunking & Tokenizer](https://marcuz-apl.github.io/patchtroy/llm-chunking/)
-- [REST API Microservice & Docker](https://marcuz-apl.github.io/patchtroy/rest-api/)
-- [Benchmark Results vs Crawl4AI & Firecrawl](https://marcuz-apl.github.io/patchtroy/benchmarks/)
+- [Getting Started Guide](https://marcuz-apl.github.io/playtrafi/getting-started/)
+- [Stealth Architecture Deep Dive](https://marcuz-apl.github.io/playtrafi/stealth-architecture/)
+- [Context Pooling & Concurrency](https://marcuz-apl.github.io/playtrafi/context-pool/)
+- [Media Capture (Screenshots & PDFs)](https://marcuz-apl.github.io/playtrafi/media-capture/)
+- [Proxy Rotation & Fault Quarantine](https://marcuz-apl.github.io/playtrafi/proxy-rotation/)
+- [LLM Chunking & Tokenizer](https://marcuz-apl.github.io/playtrafi/llm-chunking/)
+- [REST API Microservice & Docker](https://marcuz-apl.github.io/playtrafi/rest-api/)
+- [Benchmark Results vs Crawl4AI & Firecrawl](https://marcuz-apl.github.io/playtrafi/benchmarks/)
+- [Rebranding Guide](https://marcuz-apl.github.io/playtrafi/rebranding-guide/)
 
 ---
 
 ## 📄 License
 
-Patchtroy is open-source software created by [@marcuz-apl](https://github.com/marcuz-apl) and maintained by **Alfazen Inc.**, released under the **[Apache 2.0 License](LICENSE)**.
+Playtrafi is open-source software created by [@marcuz-apl](https://github.com/marcuz-apl) and maintained by **Alfazen Inc.**, released under the **[Apache 2.0 License](LICENSE)**.

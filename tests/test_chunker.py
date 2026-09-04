@@ -1,7 +1,7 @@
 """Tests for Markdown chunking and token counting utility."""
 
-from patchtroy.chunker import TextChunk, chunk_markdown, count_tokens
-from patchtroy.models import ScrapeResult
+from playtrafi.chunker import TextChunk, chunk_markdown, count_tokens
+from playtrafi.models import ScrapeResult
 
 
 def test_count_tokens():

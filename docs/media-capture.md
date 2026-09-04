@@ -1,6 +1,6 @@
 # Screenshots & PDF Export
 
-Patchtroy supports full visual and document capture alongside clean text and Markdown extraction.
+Playtrafi supports full visual and document capture alongside clean text and Markdown extraction.
 
 ---
 
@@ -17,22 +17,24 @@ Patchtroy supports full visual and document capture alongside clean text and Mar
 ## 🐍 Python Usage
 
 ```python
-from patchtroy import Patchtroy, PatchtroyConfig
+from playtrafi import Playtrafi, PlaytrafiConfig
 
-config = PatchtroyConfig(
+config = PlaytrafiConfig(
     screenshot=True,
     full_page_screenshot=True,
     pdf=True,
 )
 
-result = Patchtroy.crawl("https://example.com", config=config)
+crawler = Playtrafi(config)
+with crawler:
+    result = crawler.scrape("https://example.com")
 
-# Save captured media directly to disk
-if result.screenshot_bytes:
-    result.save_screenshot("page_screenshot.png")
+    # Save captured media directly to disk
+    if result.screenshot_bytes:
+        result.save_screenshot("page_screenshot.png")
 
-if result.pdf_bytes:
-    result.save_pdf("page_document.pdf")
+    if result.pdf_bytes:
+        result.save_pdf("page_document.pdf")
 ```
 
 ---
@@ -41,8 +43,8 @@ if result.pdf_bytes:
 
 ```bash
 # Standard viewport screenshot
-patchtroy https://example.com --screenshot page.png
+playtrafi https://example.com --screenshot page.png
 
 # Full-page screenshot and PDF
-patchtroy https://example.com --screenshot full.png --full-page --pdf doc.pdf
+playtrafi https://example.com --screenshot full.png --full-page --pdf doc.pdf
 ```

@@ -1,10 +1,10 @@
 services:
-  patchtroy:
+  playtrafi:
     build:
       context: .
       dockerfile: Dockerfile
-    image: marcuszou/patchtroy:latest
-    container_name: patchtroy-api
+    image: marcuszou/playtrafi:latest
+    container_name: playtrafi-api
     restart: unless-stopped
     ports:
       - "4013:4013"

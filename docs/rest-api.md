@@ -1,6 +1,6 @@
 # REST API Microservice & Docker Deployment
 
-Deploy Patchtroy as a standalone microservice for non-Python applications (Node.js, Go, Rust, Ruby, C#).
+Deploy Playtrafi as a standalone microservice for non-Python applications (Node.js, Go, Rust, Ruby, C#).
 
 ---
 
@@ -9,13 +9,13 @@ Deploy Patchtroy as a standalone microservice for non-Python applications (Node.
 ### Via CLI
 
 ```bash
-patchtroy serve --host 0.0.0.0 --port 4013
+playtrafi serve --host 0.0.0.0 --port 4013
 ```
 
 ### Via Docker
 
 ```bash
-docker run -d -p 4013:4013 --name patchtroy marcuszou/patchtroy:latest
+docker run -d -p 4013:4013 --name playtrafi marcuszou/playtrafi:latest
 ```
 
 ### Via Docker Compose
@@ -24,9 +24,9 @@ docker run -d -p 4013:4013 --name patchtroy marcuszou/patchtroy:latest
 version: "3.8"
 
 services:
-  patchtroy:
-    image: marcuszou/patchtroy:latest
-    container_name: patchtroy-api
+  playtrafi:
+    image: marcuszou/playtrafi:latest
+    container_name: playtrafi-api
     restart: unless-stopped
     ports:
       - "4013:4013"

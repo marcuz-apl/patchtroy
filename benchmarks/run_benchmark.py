@@ -1,4 +1,4 @@
-"""Comprehensive benchmark runner for Patchtroy vs Crawl4AI and Firecrawl."""
+"""Comprehensive benchmark runner for Playtrafi vs Crawl4AI and Firecrawl."""
 
 from __future__ import annotations
 
@@ -9,9 +9,9 @@ from pathlib import Path
 
 # Measure import time
 import_start = time.perf_counter()
-from patchtroy.chunker import chunk_markdown, count_tokens  # noqa: E402
-from patchtroy.extractors import extract_markdown_and_metadata  # noqa: E402
-from patchtroy.utils import STEALTH_INJECTION_SCRIPT  # noqa: E402
+from playtrafi.chunker import chunk_markdown, count_tokens  # noqa: E402
+from playtrafi.extractors import extract_markdown_and_metadata  # noqa: E402
+from playtrafi.utils import STEALTH_INJECTION_SCRIPT  # noqa: E402
 
 import_elapsed = time.perf_counter() - import_start
 
@@ -127,7 +127,7 @@ def verify_stealth_signatures() -> dict[str, bool]:
 
 def main() -> int:
     print("=================================================================")
-    print(" 🛡️ PATCHTROY BENCHMARK SUITE")
+    print(" 🛡️ PLAYTRAFI BENCHMARK SUITE")
     print("=================================================================")
     print(f"Python: {sys.version.split()[0]} | Platform: {sys.platform}")
     print(f"Cold Module Import Time: {import_elapsed * 1000:.2f} ms")

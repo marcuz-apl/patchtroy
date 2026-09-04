@@ -1,12 +1,12 @@
-"""Tests for Patchtroy FastAPI REST API microservice."""
+"""Tests for Playtrafi FastAPI REST API microservice."""
 
 from unittest.mock import AsyncMock, patch
 
 import pytest
 from httpx import ASGITransport, AsyncClient
 
-from patchtroy.models import ScrapeResult
-from patchtroy.server import create_app
+from playtrafi.models import ScrapeResult
+from playtrafi.server import create_app
 
 
 @pytest.mark.asyncio
@@ -31,7 +31,7 @@ async def test_scrape_endpoint_mocked():
         success=True,
     )
 
-    with patch("patchtroy.server.AsyncPatchtroy") as mock_crawler_cls:
+    with patch("playtrafi.server.AsyncPlaytrafi") as mock_crawler_cls:
         mock_crawler = AsyncMock()
         mock_crawler.start = AsyncMock()
         mock_crawler.close = AsyncMock()
@@ -55,7 +55,7 @@ async def test_scrape_batch_endpoint_mocked():
     fake_res1 = ScrapeResult(url="https://example.com/1", title="Page 1", success=True)
     fake_res2 = ScrapeResult(url="https://example.com/2", title="Page 2", success=True)
 
-    with patch("patchtroy.server.AsyncPatchtroy") as mock_crawler_cls:
+    with patch("playtrafi.server.AsyncPlaytrafi") as mock_crawler_cls:
         mock_crawler = AsyncMock()
         mock_crawler.start = AsyncMock()
         mock_crawler.close = AsyncMock()

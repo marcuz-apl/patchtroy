@@ -19,15 +19,15 @@ Standard browser automation frameworks (e.g. vanilla Playwright, Puppeteer, Sele
 
 ---
 
-## 🛡️ The Patchtroy Solution
+## 🛡️ The Playtrafi Solution
 
-Patchtroy implements a four-tiered stealth defense:
+Playtrafi implements a four-tiered stealth defense:
 
 ### 1. C++ Patchright Engine
-Patchtroy replaces standard Playwright with **Patchright**, an undetected Chromium driver that removes CDP hooks and internal debugging flags at the C++ source level before the binary executes.
+Playtrafi replaces standard Playwright with **Patchright**, an undetected Chromium driver that removes CDP hooks and internal debugging flags at the C++ source level before the binary executes.
 
 ### 2. Runtime Stealth Injections
-Before navigation starts, Patchtroy injects stealth emulation scripts:
+Before navigation starts, Playtrafi injects stealth emulation scripts:
 - Deletes or sets `navigator.webdriver` to `undefined`.
 - Mocks realistic `window.chrome` with `runtime`, `loadTimes`, `csi`, and `app`.
 - Emulates realistic plugin arrays and standard language lists.
@@ -38,4 +38,4 @@ Before navigation starts, Patchtroy injects stealth emulation scripts:
 - Modern desktop User-Agent headers are randomized per session.
 
 ### 4. Automatic Fault-Tolerant HTTP Fallback
-If headless Chromium times out or is blocked, Patchtroy automatically falls back to an asynchronous HTTP request using `httpx` with realistic browser headers, ensuring uninterrupted pipeline execution.
+If headless Chromium times out or is blocked, Playtrafi automatically falls back to an asynchronous HTTP request using `httpx` with realistic browser headers, ensuring uninterrupted pipeline execution.

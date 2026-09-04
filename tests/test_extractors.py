@@ -1,4 +1,4 @@
-from patchtroy.extractors import (
+from playtrafi.extractors import (
     extract_markdown_and_metadata,
     extract_structured_data,
 )

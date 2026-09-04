@@ -2,11 +2,11 @@ from pathlib import Path
 
 import pytest
 
-from patchtroy.models import LinkItem, PatchtroyConfig, ScrapeResult
+from playtrafi.models import LinkItem, PatchtroyConfig, PlaytrafiConfig, ScrapeResult
 
 
 def test_default_config():
-    cfg = PatchtroyConfig()
+    cfg = PlaytrafiConfig()
     assert cfg.headless is True
     assert cfg.browser_timeout_s == 25.0
     assert cfg.http_fallback is True
@@ -14,10 +14,12 @@ def test_default_config():
     assert cfg.max_concurrency == 5
     assert cfg.screenshot is False
     assert cfg.pdf is False
+    # Test backwards compatibility alias
+    assert PatchtroyConfig is PlaytrafiConfig
 
 
 def test_custom_config():
-    cfg = PatchtroyConfig(
+    cfg = PlaytrafiConfig(
         headless=False,
         browser_timeout_s=10.0,
         wait_for="article",

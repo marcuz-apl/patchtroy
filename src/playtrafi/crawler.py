@@ -1,4 +1,4 @@
-"""Core crawler implementations for Patchtroy."""
+"""Core crawler implementations for Playtrafi."""
 
 from __future__ import annotations
 
@@ -11,34 +11,34 @@ from typing import Any
 
 import httpx
 
-from patchtroy.extractors import (
+from playtrafi.extractors import (
     extract_links,
     extract_markdown_and_metadata,
     extract_structured_data,
 )
-from patchtroy.models import LinkItem, PatchtroyConfig, ScrapeResult
-from patchtroy.pool import BrowserContextPool
-from patchtroy.proxy import ProxyManager
-from patchtroy.utils import (
+from playtrafi.models import LinkItem, PlaytrafiConfig, ScrapeResult
+from playtrafi.pool import BrowserContextPool
+from playtrafi.proxy import ProxyManager
+from playtrafi.utils import (
     STEALTH_INJECTION_SCRIPT,
     get_random_user_agent,
     is_valid_url,
     silence_windows_proactor_bug,
 )
 
-logger = logging.getLogger("patchtroy.crawler")
+logger = logging.getLogger("playtrafi.crawler")
 
 
-class AsyncPatchtroy:
+class AsyncPlaytrafi:
     """Asynchronous stealth web crawler powered by Patchright, Trafilatura, and Context Pooling."""
 
-    def __init__(self, config: PatchtroyConfig | dict[str, Any] | None = None) -> None:
+    def __init__(self, config: PlaytrafiConfig | dict[str, Any] | None = None) -> None:
         if isinstance(config, dict):
-            self.config = PatchtroyConfig(**config)
-        elif isinstance(config, PatchtroyConfig):
+            self.config = PlaytrafiConfig(**config)
+        elif isinstance(config, PlaytrafiConfig):
             self.config = config
         else:
-            self.config = PatchtroyConfig()
+            self.config = PlaytrafiConfig()
 
         # Initialize ProxyManager if configured
         self.proxy_manager: ProxyManager | None = None
@@ -61,7 +61,7 @@ class AsyncPatchtroy:
         """Compatibility accessor for underlying playwright."""
         return self._pool._playwright
 
-    async def __aenter__(self) -> AsyncPatchtroy:
+    async def __aenter__(self) -> AsyncPlaytrafi:
         await self.start()
         return self
 
@@ -288,7 +288,7 @@ class AsyncPatchtroy:
         pdf: bool = False,
     ) -> ScrapeResult:
         """One-shot convenience coroutine for instant single-URL scraping."""
-        config = PatchtroyConfig(
+        config = PlaytrafiConfig(
             headless=headless,
             wait_for=wait_for,
             screenshot=screenshot,
@@ -307,7 +307,7 @@ class AsyncPatchtroy:
         custom_schema: dict[str, Any] | None = None,
     ) -> list[ScrapeResult]:
         """One-shot convenience coroutine for instant concurrent batch scraping."""
-        config = PatchtroyConfig(
+        config = PlaytrafiConfig(
             headless=headless,
             max_concurrency=max_concurrency,
             wait_for=wait_for,
@@ -315,6 +315,10 @@ class AsyncPatchtroy:
         )
         async with cls(config) as client:
             return await client.scrape_many(urls, wait_for=wait_for, custom_schema=custom_schema)
+
+
+# Backwards compatibility alias
+AsyncPatchtroy = AsyncPlaytrafi
 
 
 def _run_sync(coro: Any) -> Any:
@@ -325,21 +329,21 @@ def _run_sync(coro: Any) -> Any:
     return asyncio.run(coro)
 
 
-class Patchtroy:
-    """Synchronous wrapper for Patchtroy crawler execution."""
+class Playtrafi:
+    """Synchronous wrapper for Playtrafi crawler execution."""
 
-    def __init__(self, config: PatchtroyConfig | dict[str, Any] | None = None) -> None:
+    def __init__(self, config: PlaytrafiConfig | dict[str, Any] | None = None) -> None:
         self.config = (
-            PatchtroyConfig(**config)
+            PlaytrafiConfig(**config)
             if isinstance(config, dict)
-            else (config or PatchtroyConfig())
+            else (config or PlaytrafiConfig())
         )
         silence_windows_proactor_bug()
-        self._async_crawler: AsyncPatchtroy | None = None
+        self._async_crawler: AsyncPlaytrafi | None = None
 
-    def _get_crawler(self) -> AsyncPatchtroy:
+    def _get_crawler(self) -> AsyncPlaytrafi:
         if self._async_crawler is None:
-            self._async_crawler = AsyncPatchtroy(self.config)
+            self._async_crawler = AsyncPlaytrafi(self.config)
         return self._async_crawler
 
     def scrape(
@@ -370,7 +374,7 @@ class Patchtroy:
             finally:
                 self._async_crawler = None
 
-    def __enter__(self) -> Patchtroy:
+    def __enter__(self) -> Playtrafi:
         return self
 
     def __exit__(self, exc_type: Any, exc_val: Any, exc_tb: Any) -> None:
@@ -388,7 +392,7 @@ class Patchtroy:
     ) -> ScrapeResult:
         """Synchronous one-shot convenience function for scraping."""
         return _run_sync(
-            AsyncPatchtroy.crawl(
+            AsyncPlaytrafi.crawl(
                 url,
                 headless=headless,
                 wait_for=wait_for,
@@ -409,7 +413,7 @@ class Patchtroy:
     ) -> list[ScrapeResult]:
         """Synchronous one-shot convenience function for concurrent batch crawling."""
         return _run_sync(
-            AsyncPatchtroy.crawl_many(
+            AsyncPlaytrafi.crawl_many(
                 urls,
                 headless=headless,
                 max_concurrency=max_concurrency,
@@ -417,3 +421,7 @@ class Patchtroy:
                 custom_schema=custom_schema,
             )
         )
+
+
+# Backwards compatibility alias
+Patchtroy = Playtrafi

@@ -1,4 +1,4 @@
-"""FastAPI REST API microservice for Patchtroy."""
+"""FastAPI REST API microservice for Playtrafi."""
 
 from __future__ import annotations
 
@@ -9,18 +9,18 @@ from typing import Any, AsyncIterator
 
 from pydantic import BaseModel, Field
 
-from patchtroy.crawler import AsyncPatchtroy
-from patchtroy.models import PatchtroyConfig, ScrapeResult
+from playtrafi.crawler import AsyncPlaytrafi
+from playtrafi.models import PlaytrafiConfig, ScrapeResult
 
-logger = logging.getLogger("patchtroy.server")
+logger = logging.getLogger("playtrafi.server")
 
 try:
     from fastapi import FastAPI
     from fastapi.responses import JSONResponse
 except ImportError as exc:
     raise ImportError(
-        "FastAPI is required to run the Patchtroy REST microservice. "
-        "Install it via: pip install 'patchtroy[server]'"
+        "FastAPI is required to run the Playtrafi REST microservice. "
+        "Install it via: pip install 'playtrafi[server]'"
     ) from exc
 
 
@@ -67,28 +67,28 @@ def _serialize_scrape_result(res: ScrapeResult) -> dict[str, Any]:
 
 def create_app() -> FastAPI:
     """Factory creating configured FastAPI microservice instance."""
-    crawler_instance: AsyncPatchtroy | None = None
+    crawler_instance: AsyncPlaytrafi | None = None
 
-    async def get_crawler() -> AsyncPatchtroy:
+    async def get_crawler() -> AsyncPlaytrafi:
         nonlocal crawler_instance
         if crawler_instance is None:
-            crawler_instance = AsyncPatchtroy()
+            crawler_instance = AsyncPlaytrafi()
             await crawler_instance.start()
         return crawler_instance
 
     @asynccontextmanager
     async def lifespan(app: FastAPI) -> AsyncIterator[None]:
         nonlocal crawler_instance
-        logger.info("Initializing Patchtroy microservice browser engine...")
+        logger.info("Initializing Playtrafi microservice browser engine...")
         await get_crawler()
         yield
-        logger.info("Terminating Patchtroy microservice browser engine...")
+        logger.info("Terminating Playtrafi microservice browser engine...")
         if crawler_instance:
             await crawler_instance.close()
             crawler_instance = None
 
     app = FastAPI(
-        title="Patchtroy REST Microservice",
+        title="Playtrafi REST Microservice",
         description="Undetected stealth web scraper & clean Markdown extractor for LLMs.",
         version="0.5.2",
         lifespan=lifespan,
@@ -109,7 +109,7 @@ def create_app() -> FastAPI:
         """Scrape a single target web page into clean Markdown."""
         crawler = await get_crawler()
 
-        config = PatchtroyConfig(
+        config = PlaytrafiConfig(
             browser_timeout_s=body.timeout,
             wait_for=body.wait_for,
             wait_until=body.wait_until,
@@ -120,7 +120,7 @@ def create_app() -> FastAPI:
             custom_schema=body.custom_schema,
         )
         # Create lightweight client sharing the application's browser pool
-        client = AsyncPatchtroy(config)
+        client = AsyncPlaytrafi(config)
         client._pool = crawler._pool
 
         result = await client.scrape(
@@ -136,13 +136,13 @@ def create_app() -> FastAPI:
         """Scrape multiple target web pages concurrently."""
         crawler = await get_crawler()
 
-        config = PatchtroyConfig(
+        config = PlaytrafiConfig(
             browser_timeout_s=body.timeout,
             wait_for=body.wait_for,
             max_concurrency=body.concurrency,
             custom_schema=body.custom_schema,
         )
-        client = AsyncPatchtroy(config)
+        client = AsyncPlaytrafi(config)
         client._pool = crawler._pool
 
         results = await client.scrape_many(
@@ -164,7 +164,7 @@ def run_server(host: str = "0.0.0.0", port: int = 4013, reload: bool = False) ->
     except ImportError as exc:
         raise ImportError(
             "Uvicorn is required to run the server. "
-            "Install it via: pip install 'patchtroy[server]'"
+            "Install it via: pip install 'playtrafi[server]'"
         ) from exc
 
-    uvicorn.run("patchtroy.server:create_app", host=host, port=port, reload=reload, factory=True)
+    uvicorn.run("playtrafi.server:create_app", host=host, port=port, reload=reload, factory=True)

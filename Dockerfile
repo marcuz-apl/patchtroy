@@ -1,12 +1,12 @@
 # ==============================================================================
-# Patchtroy Production Dockerfile
+# Playtrafi Production Dockerfile
 # Undetected stealth web scraper & markdown extractor microservice for LLMs
 # ==============================================================================
 
 FROM python:3.11-slim
 
 LABEL maintainer="marcuz-apl <support@alfazen.org>"
-LABEL org.opencontainers.image.title="Patchtroy"
+LABEL org.opencontainers.image.title="Playtrafi"
 LABEL org.opencontainers.image.description="Undetected stealth web scraper & markdown extractor microservice"
 LABEL org.opencontainers.image.version="0.5.2"
 
@@ -39,10 +39,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 # Create unprivileged user and ensure browser directories exist
-RUN useradd -m -u 1000 patchtroy \
-    && mkdir -p /ms-playwright /app /home/patchtroy/.cache \
-    && ln -s /ms-playwright /home/patchtroy/.cache/ms-playwright \
-    && chown -R patchtroy:patchtroy /ms-playwright /app /home/patchtroy
+RUN useradd -m -u 1000 playtrafi \
+    && mkdir -p /ms-playwright /app /home/playtrafi/.cache \
+    && ln -s /ms-playwright /home/playtrafi/.cache/ms-playwright \
+    && chown -R playtrafi:playtrafi /ms-playwright /app /home/playtrafi
 
 WORKDIR /app
 
@@ -50,17 +50,18 @@ WORKDIR /app
 COPY pyproject.toml README.md /app/
 COPY src/ /app/src/
 
-# Install patchtroy with REST microservice extras and download Chromium
+# Install playtrafi with REST microservice extras and download Chromium
 RUN pip install --no-cache-dir ".[server]" \
     && patchright install chromium \
-    && chown -R patchtroy:patchtroy /app /ms-playwright
+    && chown -R playtrafi:playtrafi /app /ms-playwright
 
-USER patchtroy
+USER playtrafi
 
 EXPOSE 4013
 
 HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
     CMD curl -f http://localhost:4013/health || exit 1
 
-ENTRYPOINT ["patchtroy"]
+ENTRYPOINT ["playtrafi"]
 CMD ["serve", "--host", "0.0.0.0", "--port", "4013"]
+

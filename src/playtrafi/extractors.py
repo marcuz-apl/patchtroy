@@ -1,4 +1,4 @@
-"""Content and structured data extraction engine for Patchtroy."""
+"""Content and structured data extraction engine for Playtrafi."""
 
 from __future__ import annotations
 
@@ -10,7 +10,7 @@ from urllib.parse import urljoin
 import trafilatura
 from bs4 import BeautifulSoup
 
-logger = logging.getLogger('patchtroy.extractors')
+logger = logging.getLogger("playtrafi.extractors")
 
 
 def extract_markdown_and_metadata(

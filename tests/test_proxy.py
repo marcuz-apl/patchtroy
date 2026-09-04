@@ -1,8 +1,8 @@
-"""Tests for ProxyManager in patchtroy."""
+"""Tests for ProxyManager in playtrafi."""
 
 from pathlib import Path
 
-from patchtroy.proxy import ProxyItem, ProxyManager
+from playtrafi.proxy import ProxyItem, ProxyManager
 
 
 def test_proxy_item_quarantine():

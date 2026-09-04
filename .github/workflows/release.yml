@@ -1,4 +1,4 @@
-name: Publish to PyPI
+name: Publish Release
 
 on:
   push:
@@ -6,14 +6,15 @@ on:
       - "v*"
 
 jobs:
-  pypi-publish:
-    name: Build & Upload to PyPI
+  release:
+    name: Build, Release & Publish
     runs-on: ubuntu-latest
     environment:
       name: pypi
-      url: https://pypi.org/p/patchtroy
+      url: https://pypi.org/p/playtrafi
     permissions:
       id-token: write  # Mandatory for PyPI Trusted Publishing
+      contents: write  # Mandatory for GitHub Release creation
 
     steps:
       - name: Checkout repository
@@ -33,7 +34,14 @@ jobs:
       - name: Build sdist and wheel
         run: uv build
 
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/*
+          generate_release_notes: true
+
       - name: Publish to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
           packages-dir: dist/
+
