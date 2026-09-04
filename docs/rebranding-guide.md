@@ -23,11 +23,11 @@ This document details the complete end-to-end process for rebranding the project
 - [x] **Phase 1: Pre-flight Verification & Registry Availability** *(Completed)*
 - [x] **Phase 2: In-Repository Codebase & Packaging Refactoring** *(Completed)*
 - [x] **Phase 3: Docker & Documentation Updates** *(Completed)*
-- [ ] **Phase 4: GitHub Repository & Git Remote Rename** *(Requires GitHub UI / CLI)*
-- [ ] **Phase 5: PyPI Trusted Publishing (OIDC) Registration** *(Requires PyPI Web UI)*
-- [x] **Phase 6: Verification & Test Suite Validation** *(38 tests passing, ruff clean, wheel built)*
-- [ ] **Phase 7: Transitional Deprecation Package for `patchtroy`**
-- [ ] **Phase 8: Initial Release of `playtrafi` (`v0.6.0`)**
+- [x] **Phase 4: GitHub Repository & Git Remote Rename** *(Completed — remotes & repo active)*
+- [x] **Phase 5: PyPI Package Registration & Publishing** *(Completed — playtrafi 0.6.0 live on PyPI)*
+- [x] **Phase 6: Verification & Test Suite Validation** *(Completed — 38 tests passing, ruff clean)*
+- [x] **Phase 7: Transitional Deprecation Package for `patchtroy`** *(Completed — patchtroy 0.6.0 bridge published to PyPI)*
+- [ ] **Phase 8: Initial Release of `playtrafi` (`v0.6.0`)** *(Tag & GitHub Release)*
 
 ---
 
